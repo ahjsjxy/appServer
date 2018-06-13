@@ -1,0 +1,6 @@
+为保证客户端签名的正确上传,需要设置tomcat的post请求长度不受限制.
+
+t_xcjc  增加result_pic字段
+t_jcjh  增加isClose字段
+公司表中企业负责人?  职务?
+t_xcjc  修改jcjhid字段长度

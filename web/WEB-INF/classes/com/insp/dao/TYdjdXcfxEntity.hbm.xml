@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.insp.dao.TYdjdXcfxEntity" table="t_ydjd_xcfx" schema="jeeplus_ani_big">
+        <id name="id" column="id"/>
+        <property name="bjxqy" column="bjxqy"/>
+        <property name="qydz" column="qydz"/>
+        <property name="qyfzr" column="qyfzr"/>
+        <property name="qyfzrzw" column="qyfzrzw"/>
+        <property name="qyfzrlxdh" column="qyfzrlxdh"/>
+        <property name="jccs" column="jccs"/>
+        <property name="jckssj" column="jckssj"/>
+        <property name="jcjssj" column="jcjssj"/>
+        <property name="jgjz" column="jgjz"/>
+        <property name="zfry1" column="zfry1"/>
+        <property name="zfry1Zjhm" column="zfry1zjhm"/>
+        <property name="zfry2" column="zfry2"/>
+        <property name="zfry2Zjhm" column="zfry2zjhm"/>
+        <property name="zfry3" column="zfry3"/>
+        <property name="zfry3Zjhm" column="zfry3zjhm"/>
+        <property name="jcjhid" column="jcjhid"/>
+        <property name="jcqk" column="jcqk"/>
+        <property name="jcry1Pic" column="jcry1_pic"/>
+        <property name="jcry2Pic" column="jcry2_pic"/>
+        <property name="bjcdwPic" column="bjcdw_pic"/>
+        <property name="remarks" column="remarks"/>
+        <property name="createBy" column="create_by"/>
+        <property name="createDate" column="create_date"/>
+        <property name="updateBy" column="update_by"/>
+        <property name="updateDate" column="update_date"/>
+        <property name="delFlag" column="del_flag"/>
+        <property name="resultPic" column="result_pic"/>
+        <property name="isfc" column="isfc"/>
+        <property name="officeid" column="officeid"/>
+        <property name="isyh" column="isyh"/>
+        <property name="bjcqyid" column="bjcqyid"/>
+        <property name="yjzt" column="yjzt"/>
+        <property name="iszlzg" column="iszlzg"/>
+        <property name="zlzgsbh" column="zlzgsbh"/>
+        <property name="zlzgrq" column="zlzgrq"/>
+        <property name="zlzgws" column="zlzgws"/>
+        <property name="xcjcPic" column="xcjc_pic"/>
+        <property name="uploadPic" column="upload_pic"/>
+    </class>
+</hibernate-mapping>

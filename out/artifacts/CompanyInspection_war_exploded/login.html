@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--标准mui.css-->
+<link rel="stylesheet" href="mui-master/dist/css/mui.min.css">
+<link href="fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="css/z-layout.css" rel="stylesheet" type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />
+<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+-->
+<link rel="stylesheet" type="text/css" href="mui-master/examples/hello-mui/css/app.css" />
+<link rel="stylesheet" type="text/css" href="mui-master/examples/hello-mui/css/mui.picker.min.css"/>
+
+<!--App自定义的css-->
+<style type="text/css">
+body{ background:url(images/login.jpg) no-repeat top center;}
+ .mui-table-view-cell:after { background-color: #fff;}
+ .mui-content{ background:none;}
+ .logininput{border-top:none !important;border-left:none !important;border-right:none !important;border-bottom:1px solid #0077e5 !important; background:none !important; border-radius:0px !important;font-family: 'microsoft yahei', Arial, Helvetica, sans-serif; color:#212121 !important; font-size:15px; margin-bottom:0px !important;}
+
+</style>
+</head>
+<body>
+
+<!--content-->
+<div class="mui-content">
+<div class="z-row marT10">
+  <div class="z-col"></div>
+  <div class="z-col loginlogo">
+    <img src="images/loginlogo.png">
+  </div>
+   <div class="z-col"></div>
+</div>
+
+<div class="z-row logininputcont">
+  <div class="loginxtbbox">
+    <div class="logininpuxtb"><i class="fa fa-user-circle-o"></i></div>
+  </div>
+  <div class="z-col">
+    <input class="logininput" placeholder="用户名" type="text"/>
+  </div>
+</div>
+
+<div class="z-row logininputcont">
+  <div class="loginxtbbox">
+    <div class="logininpuxtb"><i class="fa fa-unlock-alt"></i></div>
+  </div>
+  <div class="z-col">
+    <input class="logininput" placeholder="密码" type="password"/>
+  </div>
+</div>
+
+<div class="z-row logininputcont marT20">
+  <div class="z-col">
+    <button class="loginbtn">登 录</button>
+  </div>
+</div>
+</div>
+<!--footer-->
+
+<script src="mui-master/dist/js/mui.min.js"></script>
+<script src="mui-master/examples/hello-mui/js/mui.picker.min.js"></script>
+		<script>
+			(function($) {
+				$.init();
+				var result = $('#result')[0];
+				var btns = $('#demo1');
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						var _self = this;
+						if(_self.picker) {
+							_self.picker.show(function (rs) {
+								result.innerText = rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						} else {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							_self.picker = new $.DtPicker(options);
+							_self.picker.show(function(rs) {
+								result.innerText = rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						}
+						
+					}, false);
+				});
+			})(mui);
+		</script>
+     <script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		//圆角列表开关处理
+		document.getElementById("M_Toggle").addEventListener('toggle',function (e) {
+			var isActive = e.detail.isActive;
+			var table = document.querySelector('.mui-table-view');
+			var card = document.querySelector('.mui-card');
+			if (isActive) {
+				card.appendChild(table);
+				card.style.display = '';
+			} else {
+				var content = document.querySelector('.mui-content');
+				content.insertBefore(table, card);
+				card.style.display = 'none';
+			}
+		});
+	</script>
+
+</body>
+</html>

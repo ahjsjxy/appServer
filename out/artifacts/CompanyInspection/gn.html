@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--标准mui.css-->
+<link rel="stylesheet" href="mui-master/dist/css/mui.min.css">
+<link href="fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="css/z-layout.css" rel="stylesheet" type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<!--App自定义的css-->
+<style type="text/css">
+ .mui-table-view-cell:after { background-color: #fff;}
+ .mui-slider-indicator .mui-indicator{ background: #fff;}
+ .mui-slider-indicator .mui-active.mui-indicator { width:16px; border-radius:6px;   background: #ff5722;}
+
+</style>
+</head>
+<body>
+<!--toptar-->
+<header class="mui-bar mui-bar-nav"> 
+  <a class="mui-action-back mui-pull-left">
+   <i class="fa fa-user-circle"></i>
+  </a>
+  <h1 class="mui-title">奉贤智慧安监</h1>
+</header>
+<!--content-->
+<div class="mui-content">
+
+<div class="marB10">
+<div id="Gallery" class="mui-slider">
+    <div class="mui-slider-group">
+        <div class="mui-slider-item"><img src="images/banner.jpg">	</div>
+        <div class="mui-slider-item"><img src="images/banner.jpg"></div>
+        <div class="mui-slider-item"><img src="images/banner.jpg"></div>
+    </div>
+    <div class="mui-slider-indicator">
+        <div class="mui-indicator mui-active"></div>
+        <div class="mui-indicator"></div>
+        <div class="mui-indicator"></div>
+    </div>
+</div>
+</div>
+
+
+<div class="marB15 borBgray">
+<div class="z-row">
+  <div class="z-col gnnavitem mui-table-view-cell"> 
+       <div class="z-row">
+           <div class="z-col"> </div>
+           <div class="gnnavtb"><img src="images/gn_jcxtb.png"></div>
+           <div class="z-col"></div>
+       </div>
+       <div class="z-row">
+           <div class="z-col gnnavtxt ellipsis">检查</div>
+       </div>
+  </div>
+  <div class="z-col gnnavitem mui-table-view-cell"> 
+       <div class="z-row">
+           <div class="z-col"> </div>
+           <div class="gnnavtb"><img src="images/gn_wzxtb.png"></div>
+           <div class="z-col"></div>
+       </div>
+       <div class="z-row">
+           <div class="z-col gnnavtxt ellipsis">违章</div>
+       </div>
+  </div>
+  <div class="z-col gnnavitem mui-table-view-cell"> 
+       <div class="z-row">
+           <div class="z-col"> </div>
+           <div class="gnnavtb"><div class="gnnavxttx">1</div><img src="images/gn_fjxtb.png"></div>
+           <div class="z-col"></div>
+       </div>
+       <div class="z-row">
+           <div class="z-col gnnavtxt ellipsis">复检</div>
+       </div>
+  </div>
+  <div class="z-col gnnavitem mui-table-view-cell"> 
+       <div class="z-row">
+           <div class="z-col"> </div>
+           <div class="gnnavtb"><img src="images/gn_jlxtb.png"></div>
+           <div class="z-col"></div>
+       </div>
+       <div class="z-row">
+           <div class="z-col gnnavtxt ellipsis">记录</div>
+       </div>
+  </div>
+</div>
+<div class="z-row">
+  <div class="z-col gnnavitem mui-table-view-cell"> 
+       <div class="z-row">
+           <div class="z-col"> </div>
+           <div class="gnnavtb"><img src="images/gn_tjxtb.png"></div>
+           <div class="z-col"></div>
+       </div>
+       <div class="z-row">
+           <div class="z-col gnnavtxt ellipsis">统计</div>
+       </div>
+  </div>
+  <div class="z-col gnnavitem mui-table-view-cell"> 
+       <div class="z-row">
+           <div class="z-col"> </div>
+           <div class="gnnavtb"><img src="images/gn_zlxtb.png"></div>
+           <div class="z-col"></div>
+       </div>
+       <div class="z-row">
+           <div class="z-col gnnavtxt ellipsis">资料</div>
+       </div>
+  </div>
+  <div class="z-col gnnavitem mui-table-view-cell"> 
+       <div class="z-row">
+           <div class="z-col"> </div>
+           <div class="gnnavtb"><img src="images/gn_dwxtb.png"></div>
+           <div class="z-col"></div>
+       </div>
+       <div class="z-row">
+           <div class="z-col gnnavtxt ellipsis">定位</div>
+       </div>
+  </div>
+  <div class="z-col gnnavitem mui-table-view-cell"> 
+       <div class="z-row">
+           <div class="z-col"> </div>
+           <div class="gnnavtb"><img src="images/gn_cfxtb.png"></div>
+           <div class="z-col"></div>
+       </div>
+       <div class="z-row">
+           <div class="z-col gnnavtxt ellipsis">处罚</div>
+       </div>
+  </div>
+</div>
+</div>
+
+
+</div>
+<!--footer-->
+<footer>
+<div class="z-row">
+  <div class="z-col footernavitem mui-table-view-cell">
+    <div class="z-row">
+      <div class="z-col footernavicon">
+      <i class="fa fa-th-large fa-lg"></i>
+      </div>
+    </div>
+    <div class="z-row">
+      <div class="z-col footernavtxt">
+      主页
+      </div>
+    </div>
+  </div>
+  <div class="z-col footernavitem footernavActive mui-table-view-cell">
+    <div class="z-row">
+      <div class="z-col footernavicon">
+      <i class="fa fa-cube fa-lg"></i>
+      </div>
+    </div>
+    <div class="z-row">
+      <div class="z-col footernavtxt">
+      功能
+      </div>
+    </div>
+  </div>
+  <div class="z-col footernavitem mui-table-view-cell">
+    <div class="z-row">
+      <div class="z-col footernavicon">
+      <i class="fa fa-commenting fa-lg"></i>
+      </div>
+    </div>
+    <div class="z-row">
+      <div class="z-col footernavtxt">
+      消息
+      </div>
+    </div>
+  </div>
+  <div class="z-col footernavitem mui-table-view-cell">
+    <div class="z-row">
+      <div class="z-col footernavicon">
+      <i class="fa fa-user-circle-o fa-lg"></i>
+      </div>
+    </div>
+    <div class="z-row">
+      <div class="z-col footernavtxt">
+      我
+      </div>
+    </div>
+  </div>
+</div>
+</footer>
+<script src="mui-master/dist/js/mui.min.js"></script>
+	<script>
+		mui.init();
+		mui.ready(function() {
+			var slider = document.getElementById('Gallery');
+			var group = slider.querySelector('.mui-slider-group');
+			var items = mui('.mui-slider-item', group);
+			//克隆第一个节点
+			var first = items[0].cloneNode(true);
+			first.classList.add('mui-slider-item-duplicate');
+			//克隆最后一个节点
+			var last = items[items.length - 1].cloneNode(true);
+			last.classList.add('mui-slider-item-duplicate');
+			//处理是否循环逻辑，若支持循环，需支持两点：
+			//1、在.mui-slider-group节点上增加.mui-slider-loop类
+			//2、重复增加2个循环节点，图片顺序变为：N、1、2...N、1
+			var sliderApi = mui(slider).slider();
+
+			function toggleLoop(loop) {
+					if (loop) {
+						group.classList.add('mui-slider-loop');
+						group.insertBefore(last, group.firstChild);
+						group.appendChild(first);
+						sliderApi.refresh();
+						sliderApi.gotoItem(0);
+					} else {
+						group.classList.remove('mui-slider-loop');
+						group.removeChild(first);
+						group.removeChild(last);
+						sliderApi.refresh();
+						sliderApi.gotoItem(0);
+					}
+				}
+				//按下“循环”按钮的处理逻辑；
+			document.getElementById('Gallery_Toggle').addEventListener('toggle', function(e) {
+				var loop = e.detail.isActive;
+				toggleLoop(loop);
+			});
+		});
+	</script>
+
+</body>
+</html>
