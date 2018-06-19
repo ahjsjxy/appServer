@@ -8,19 +8,17 @@ import com.insp.dao.*;
 import com.insp.database.DataBaseManager;
 import com.insp.util.ImageUtil;
 import com.insp.util.PasswordUtil;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DoServlet {
+    //用户登录,将用户信息及officeId和与该用户相同单位的成员返回给前端
     public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JSONObject result = new JSONObject();
         result.put("result", 0);
@@ -59,6 +57,12 @@ public class DoServlet {
         response.getWriter().print(result.toString());
     }
 
+    /**
+     * 获取检查项，从检查项表中获取，分为用户自建和系统添加的
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     public void getJcx(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<TJcxEntity> list = new ArrayList<>();
 
@@ -73,6 +77,13 @@ public class DoServlet {
 
         response.getWriter().print(JSON.toJSONString(list));
     }
+
+    /**
+     * 保存客户端创建的检查项
+     * @param request
+     * @param response
+     * @throws IOException
+     */
 
     public void saveJcx(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = -1;
@@ -164,27 +175,35 @@ public class DoServlet {
             //解析检查项
             JSONArray jcxList = jsonObject.getJSONArray("jcxlist");
             StringBuilder names = new StringBuilder();
+            StringBuilder namesfc = new StringBuilder();
             StringBuilder values = new StringBuilder();
-
+            StringBuilder valuesfc = new StringBuilder();
             for (Object jcx : jcxList){
                 String name = ((JSONObject) jcx).getString("jcx");
                 int value = ((JSONObject) jcx).getBoolean("isActive") ? 1 : 0;
-
                 names.append(name + "-");
                 values.append(value + ",");
+                if(value==0){
+                    namesfc.append(name + "-");
+                    valuesfc.append(value + ",");
+                }
             }
-
             if (names.length() > 0){
                 xcjxEntity.setJcjhid(names.toString().substring(0, names.length()-1));
-                xcfxEntity.setJcjhid(names.toString().substring(0, names.length()-1));
+            }
+            if(namesfc.length()>0){
+                xcfxEntity.setJcjhid(namesfc.toString().substring(0, namesfc.length()-1));
             }
             if (values.length() > 0){
                 xcjxEntity.setJcqk(values.toString().substring(0, values.length()-1));
-                xcfxEntity.setJcqk(values.toString().substring(0, values.length()-1));
+            }
+            if(valuesfc.length()>0){
+                xcfxEntity.setJcqk(valuesfc.toString().substring(0, valuesfc.length()-1));
             }
             if (values.toString().contains("0")){
                 //此检查存在问题,需要插入数据进复查表
                 xcjxEntity.setIsyh("1");
+                xcfxEntity.setIsyh("1");
                 isNeeFc = true;
             } else {
                 xcjxEntity.setIsyh("0");
@@ -193,10 +212,18 @@ public class DoServlet {
             if(xcjxEntity.getOfficeid().equals("100")){
                 flag = 1;
             }
-
             xcjxEntity.setResultPic(imageUtil.createResultImg(xcjxEntity, jcxList,flag));
             xcjxEntity.setDelFlag("0");
             xcfxEntity.setDelFlag("0");
+            int xcfcId = 0;
+            if (isNeeFc){
+                xcfxEntity.setResultPic(xcjxEntity.getResultPic());
+                DataBaseManager.add(xcfxEntity);
+                String jcry1_pic= xcfxEntity.getJcry1Pic();
+                xcfcId = DataBaseManager.queryBySql("select max(id) as id from t_ydjd_xcjx ");
+            }
+            xcjxEntity.setXcfcId(xcfcId);
+            String hql = "from TYdjdXcfxEntity t where t.id";
             resultUrl = xcjxEntity.getResultPic();
             if ((int) DataBaseManager.add(xcjxEntity) > 0){
                 int id = jsonObject.getInteger("jcid");
@@ -205,41 +232,31 @@ public class DoServlet {
                     DataBaseManager.update(undateHql, null);
                 }
             }
-
-
             //插入复查数据
-//            if (isNeeFc){
-//                xcfxEntity.setResultPic(xcjxEntity.getResultPic());
-//                DataBaseManager.add(xcfxEntity);
-//            }
+
         } catch (Exception e){
             e.printStackTrace();
         }
-
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", resultUrl);
         response.getWriter().print(jsonObject.toString());
     }
 
+
     //增加移交管理记录
     public void saveYjgl(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String str = getRequestStr(request);
         int result = 0;
-
         try {
             TYdjdShEntity shEntity = JSON.parseObject(str, new TypeReference<TYdjdShEntity>() {});
             TYdjdXcfxEntity xcfxEntity = JSON.parseObject(str, new TypeReference<TYdjdXcfxEntity>() {});
-
-
             shEntity.setCreateDate(new Timestamp(System.currentTimeMillis()));
             shEntity.setDelFlag("0");
             shEntity.setId(0);
             DataBaseManager.add(shEntity);
-
             xcfxEntity.setYjzt("1");
             DataBaseManager.update(xcfxEntity);
-
             result = 1;
         } catch (Exception e){
             e.printStackTrace();
@@ -248,6 +265,7 @@ public class DoServlet {
         response.getWriter().print(result);
     }
 
+
     //增加复查记录(在现场检查记录中通过责令整改操作)
     public void addXcfc(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ImageUtil imageUtil = new ImageUtil();
@@ -255,13 +273,10 @@ public class DoServlet {
         try {
             String jsonStr = getRequestStr(request);
             JSONObject jsonObject = JSON.parseObject(jsonStr);
-
-//            resultImagePath = imageUtil.createZlzgImg(jsonObject);
             resultImagePath = "1";
             if (resultImagePath != null){
                 TYdjdXcfxEntity xcfxEntity = JSON.parseObject(jsonStr, new TypeReference<TYdjdXcfxEntity>() {});
                 TYdjdXcjxEntity xcjxEntity = JSON.parseObject(jsonStr, new TypeReference<TYdjdXcjxEntity>() {});
-
                 xcfxEntity.setCreateDate(new Timestamp(System.currentTimeMillis()));
                 xcfxEntity.setDelFlag("0");
                 xcfxEntity.setZlzgws(resultImagePath);
@@ -269,7 +284,6 @@ public class DoServlet {
                 xcfxEntity.setZlzgrq(jsonObject.getString("time"));
                 xcfxEntity.setId(0);
                 int fcid = (int) DataBaseManager.add(xcfxEntity);
-
                 xcjxEntity.setZlzgws(resultImagePath);
                 xcjxEntity.setZlzgsbh(jsonObject.getString("wsbh"));
                 xcjxEntity.setZlzgrq(jsonObject.getString("time"));
@@ -286,30 +300,71 @@ public class DoServlet {
         jsonObject.put("result", resultImagePath);
         response.getWriter().print(jsonObject.toString());
     }
+    //todo
+    public void getDzsh(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        String jsonStr = getRequestStr(request);
+        String str = "没有权限";
+        JSONObject jsonObjectP = JSONObject.parseObject(jsonStr);
+        String officeId = jsonObjectP.getString("officeId");
+        if (officeId.equals("10003")) {
+            String hql = "from TYdjdXcfxEntity t where t.delFlag = 0 and (t.isfc = 0 or t.isfc is null or t.isfc = 2) and t.dzsh = '2' and t.isyh = '1' and iszlzg = '1' order by t.createDate desc";
+            List<TYdjdXcfxEntity> list = new ArrayList<>();
+            JSONArray jsonArray = new JSONArray();
+            try {
+                list = DataBaseManager.query(hql, null);
+                for (TYdjdXcfxEntity entity : list) {
+                    JSONObject jsonObject = (JSONObject) JSON.toJSON(entity);
+//                jsonObject.remove("id");
+                    jsonArray.add(jsonObject);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            response.getWriter().print(jsonArray.toString());
+        } else{
+            response.getWriter().print(str);
+        }
+    }
 
-    public void updateXcfc(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    public void updateDzsh(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ImageUtil imageUtil = new ImageUtil();
         String result = "-1";
         try {
             String jsonStr = getRequestStr(request);
             TYdjdXcfxEntity xcfxEntity = JSON.parseObject(jsonStr, new TypeReference<TYdjdXcfxEntity>() {});
+            TYdjdShEntity shEntity = JSON.parseObject(jsonStr,new TypeReference<TYdjdShEntity>(){});
             result = imageUtil.createFcImg(xcfxEntity);
-
             xcfxEntity.setUpdateDate(new Timestamp(System.currentTimeMillis()));
             xcfxEntity.setZlzgws(result);
-            DataBaseManager.update(xcfxEntity);
+            shEntity.setUpdateDate(new Timestamp(System.currentTimeMillis()));
+            shEntity.setZlzgws(result);
+            String isfc = xcfxEntity.getIsfc();
 
+            // =1 移交，=2 打回
+            if(isfc.equals("1")){
+                xcfxEntity.setDzsh("1");
+                xcfxEntity.setYjzt("1");
+                xcfxEntity.setDelFlag("1");
+                DataBaseManager.update(xcfxEntity);
+                shEntity.setDelFlag("0");
+                int resultL = (int) DataBaseManager.add(shEntity);
+            }else{
+                xcfxEntity.setIsyh("1");
+                xcfxEntity.setYjzt("0");
+                xcfxEntity.setDzsh("3");
+                DataBaseManager.update(xcfxEntity);
+            }
             String hql = "from TYdjdXcjxEntity t where t.xcfcId = " + xcfxEntity.getId();
             List<TYdjdXcjxEntity> list = DataBaseManager.query(hql, null);
             if (list != null && list.size() > 0){
                 TYdjdXcjxEntity xcjxEntity = list.get(0);
-                xcjxEntity.setIsfc(xcfxEntity.getIsfc());
+                xcjxEntity.setIsfc("1");
                 DataBaseManager.update(xcjxEntity);
             }
         } catch (Exception e){
             e.printStackTrace();
         }
-
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", result);
         response.getWriter().print(jsonObject);
@@ -317,19 +372,71 @@ public class DoServlet {
 
     public void getXcjc(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JSONArray jsonArray = new JSONArray();  //需要返回给客户端的数据(将所有的检查计划都转换成检查记录)
-      //  String officeId = request.getParameter("officeId");
         String jsonStr = getRequestStr(request);
         JSONObject jsonObjectL = JSON.parseObject(jsonStr);
         String officeId = jsonObjectL.getString("officeId");
+        String jzId = jsonObjectL.getString("jzs");
+        String jcdq = "";
+        String companyHql = "";
+        String str ="沪奉";
+        String jcjhHql = "from TJcjhEntity t where t.isClose is null or t.isClose = ''";
+        List<TJcjhEntity> jcjhs = DataBaseManager.query(jcjhHql, null);
+        if (officeId.equals("100")) {
+            try {
+                companyHql = "from TBasicInformationEntity t";
+                List<TBasicInformationEntity> companys = DataBaseManager.query(companyHql, null);
+                String allAreaHql = "from SysOfficeEntity t where t.delFlag = '0' and type='2'";
+                List<SysOfficeEntity> offices = DataBaseManager.query(allAreaHql,null);
+                for(int i=0;i<offices.size();i++){
+                    JzEntity jzEntity = new JzEntity();
+                    jzEntity.setJzId(offices.get(i).getId());
+                    jzEntity.setJzName(offices.get(i).getName());
+                    jzEntity.setJhjcqys(0);
+                    for(int j=0;j<companys.size();j++){
+                        if(jzEntity.getJzId().equals(String.valueOf(companys.get(j).getAreaDm()))){
+                           for(int k=0;k<jcjhs.size();k++){
+                               if(jcjhs.get(k).getJcqy().equals(String.valueOf(companys.get(j).getId()))){
+                                   int count = jzEntity.getJhjcqys();
+                                   jzEntity.setJhjcqys(count+1);
+                               }
+                           }
+                        }
+                    }
+                    JSONObject jsonObject = (JSONObject) JSON.toJSON(jzEntity);
+                    jcdq = str;
+                    jsonObject.put("jcdq",jcdq);
+                    jsonArray.add(jsonObject);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        } else {
+                companyHql = "from TBasicInformationEntity t where t.areaDm = '" + officeId + "'";
+                jsonArray = getJcjhQy(companyHql,officeId);
+        }
+        response.getWriter().print(jsonArray.toString());
+    }
+
+    public void getQyByJzId(HttpServletRequest request,HttpServletResponse response) throws  IOException{
+        JSONArray jsonArray = new JSONArray();
         String jcdq = "";
         String str = "沪奉";
         String companyHql = "";
-        String jcjhHql = "from TJcjhEntity t where t.isClose is null or t.isClose = ''";
-        if (officeId.equals("100")) {
-            jcdq = str;
-            companyHql = "from TBasicInformationEntity";
-        } else {
-            String allAreaHql = "from SysOfficeEntity t where t.delFlag = '0' and t.grade = '2' and t.id = '"+officeId+"'";
+        String jsonStr = getRequestStr(request);
+        JSONObject jsonObjectL = JSON.parseObject(jsonStr);
+        String jzId = jsonObjectL.getString("jzs");
+        companyHql = "from TBasicInformationEntity t where t.areaDm = '" + jzId + "'";
+        jsonArray = getJcjhQy(companyHql,jzId);
+        response.getWriter().print(jsonArray.toString());
+    }
+
+    private JSONArray getJcjhQy(String companyHql,String param){
+        JSONArray jsonArray = new JSONArray();
+        String jcdq = "";
+        String str = "沪奉";
+        try {
+            String allAreaHql = "from SysOfficeEntity t where t.delFlag = '0' and t.grade = '2' and t.id = '" + param + "'";
             List<SysOfficeEntity> allAreas = DataBaseManager.query(allAreaHql, null);
             if (allAreas.size() > 0) {
                 for (int i = 0; i < allAreas.size(); i++) {
@@ -337,21 +444,17 @@ public class DoServlet {
                     jcdq = str + sysOfficeEntity.getName();
                     Pattern p = Pattern.compile("镇$");
                     Matcher m = p.matcher(jcdq);
-                    if(m.find()){
-                        jcdq = jcdq.substring(0,jcdq.length()-1);
+                    if (m.find()) {
+                        jcdq = jcdq.substring(0, jcdq.length() - 1);
                     }
                 }
             }
-            companyHql = "from TBasicInformationEntity t where t.officeid = '"+officeId+"'";
-        }
-
-        try {
             List<TBasicInformationEntity> companys = DataBaseManager.query(companyHql, null);
+            String jcjhHql = "from TJcjhEntity t where t.isClose is null or t.isClose = ''";
             List<TJcjhEntity> jcjhs = DataBaseManager.query(jcjhHql, null);
-
-            for (TJcjhEntity tJcjhEntity : jcjhs){
-                for (TBasicInformationEntity company : companys){
-                    if (tJcjhEntity.getJcqy().equals(String.valueOf(company.getId()))){
+            for (TJcjhEntity tJcjhEntity : jcjhs) {
+                for (TBasicInformationEntity company : companys) {
+                    if (tJcjhEntity.getJcqy().equals(String.valueOf(company.getId()))) {
                         //将检查记录与公司信息组合成现场检查
                         TYdjdXcjxEntity xcjxEntity = new TYdjdXcjxEntity();
                         xcjxEntity.setBjxqy(company.getEnterpriseName());
@@ -363,25 +466,23 @@ public class DoServlet {
                         xcjxEntity.setJckssj(tJcjhEntity.getJckssj());
                         xcjxEntity.setJcjssj(tJcjhEntity.getJcjssj());
                         xcjxEntity.setBjcqyid(company.getId() + "");
-
                         JSONObject jsonObject = (JSONObject) JSON.toJSON(xcjxEntity);
                         jsonObject.put("jcid", tJcjhEntity.getId());
                         jsonObject.put("zxdw", "    ");  //执行单位
                         jsonObject.put("zxr", "    ");   //执行人
                         jsonObject.put("jcjhid", tJcjhEntity.getId());
                         jsonObject.remove("id");    //去除无用的id字段
-                        jsonObject.put("jcdq",jcdq);
+                        jsonObject.put("jcdq", jcdq);
                         jsonArray.add(jsonObject);
                     }
                 }
             }
-        } catch (Exception e){
+
+        }catch(Exception e){
             e.printStackTrace();
         }
-
-        response.getWriter().print(jsonArray.toString());
+        return jsonArray;
     }
-
     //根据id获取公司信息
     public void getCompanyById(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String id = getRequestStr(request);
@@ -394,13 +495,10 @@ public class DoServlet {
     //获取消息对象,目前只有一个检查计划
     public void getMessages(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Message> messages = new ArrayList<>();
-
         String hql = "from TJcjhEntity t where t.isClose is null or t.isClose = ''";
         List<TJcjhEntity> jcjhs;
-
         try {
             String time = getRequestStr(request);
-
             jcjhs = DataBaseManager.query(hql, null);
             Message message = new Message();
             message.setType("检查计划");
@@ -408,7 +506,6 @@ public class DoServlet {
                 message.setNum(jcjhs.size());
                 message.setIntro(jcjhs.get(0).getCjr() + "发布新的检查计划");
             }
-
             messages.add(message);
         } catch (Exception e){
             e.printStackTrace();
@@ -432,32 +529,106 @@ public class DoServlet {
         } catch (Exception e){
             e.printStackTrace();
         }
-
         response.getWriter().print(jsonArray.toString());
     }
 
     //获取现场复查记录
+
     public void getXcfc(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String hql = "from TYdjdXcfxEntity t where t.delFlag = 0 and (t.isfc = 0 or t.isfc is null or t.isfc = 2) order by t.createDate desc";
-        List<TYdjdXcfxEntity> list = new ArrayList<>();
+        String hql = "from TYdjdXcfxEntity t where t.delFlag = 0 and (t.isfc = 0 or t.isfc is null or t.isfc = 2) and (t.dzsh = '0' or t.dzsh = '3') and isyh = '1' and iszlzg = '1' order by t.createDate desc";
         JSONArray jsonArray = new JSONArray();
-
-        try {
-            list = DataBaseManager.query(hql, null);
-
-            for (TYdjdXcfxEntity xcfxEntity : list){
-                JSONObject jsonObject = (JSONObject) JSON.toJSON(xcfxEntity);
-
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                jsonObject.put("fctime", sdf.format(xcfxEntity.getCreateDate().getTime()));
-
-                jsonArray.add(jsonObject);
+        jsonArray = getXcfcEntity(hql);
+        response.getWriter().print(jsonArray.toString());
+    }
+    private JSONArray getXcfcEntity(String hql) {
+            List<TYdjdXcfxEntity> list = new ArrayList<>();
+            JSONArray jsonArray = new JSONArray();
+            try {
+                list = DataBaseManager.query(hql, null);
+                for (TYdjdXcfxEntity xcfxEntity : list){
+                    JSONObject jsonObject = (JSONObject) JSON.toJSON(xcfxEntity);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    String jcjhid = xcfxEntity.getJcjhid();
+                    String[] jcjhArray = jcjhid.split("-");
+                    jsonObject.put("fctime", sdf.format(xcfxEntity.getCreateDate().getTime()));
+                    jsonObject.put("jcjhArray",jcjhArray);
+                    jsonArray.add(jsonObject);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
             }
+        return jsonArray;
+    }
+    //修改现场复查结果
+    public void updateXcfc(HttpServletRequest request, HttpServletResponse response) throws IOException{
+       ImageUtil imageUtil = new ImageUtil();
+        int result = -1;
+        try{
+            String jsonStr = getRequestStr(request);
+            boolean isNeeFc = false;
+            int qyid = -1;
+            JSONObject jsonObject = JSON.parseObject(jsonStr);
+            TYdjdXcfxEntity xcfxEntity = JSON.parseObject(jsonStr, new TypeReference<TYdjdXcfxEntity>() {});
+            xcfxEntity.setCreateDate(new Timestamp(System.currentTimeMillis()));
+            JSONArray xcfxPics = (JSONArray) jsonObject.get("picArray");
+            StringBuilder uploadStr = new StringBuilder();
+            if(xcfxPics.size()>0) {
+                for (int i = 0; i < xcfxPics.size(); i++) {
+                    Object uploadPic = xcfxPics.get(i);
+                    String uploadImgPath = imageUtil.saveSignImg(uploadPic.toString());
+                    uploadStr.append(uploadImgPath);
+                    if (i < xcfxPics.size() - 1) {
+                        uploadStr = uploadStr.append(",");
+                    }
+                }
+            }
+            xcfxEntity.setUploadPic(uploadStr.toString());
+            JSONArray signs = (JSONArray) jsonObject.get("signArray");
+            for (int i=0; i<signs.size(); i++){
+                Object sign = signs.get(i);
+                switch (i){
+                    case 0:
+                        xcfxEntity.setJcry1Pic(imageUtil.saveSignImg(sign.toString()));
+                        break;
+                    case 1:
+                        xcfxEntity.setJcry2Pic(imageUtil.saveSignImg(sign.toString()));
+                        break;
+                    case 2:
+                        xcfxEntity.setBjcdwPic(imageUtil.saveSignImg(sign.toString()));
+                        break;
+                }
+            }
+            JSONArray jcxList = jsonObject.getJSONArray("jcxlist");
+            StringBuilder namesfc = new StringBuilder();
+            StringBuilder valuesfc = new StringBuilder();
+            for (Object jcx : jcxList){
+                String name = ((JSONObject) jcx).getString("jcx");
+                int value = ((JSONObject) jcx).getBoolean("isActive") ? 1 : 0;
+                if(value==0){
+                    namesfc.append(name + "-");
+                    valuesfc.append(value + ",");
+                }
+            }
+            if (valuesfc.toString().contains("0")){
+                //此检查存在问题,需要插入数据进复查表
+                xcfxEntity.setIsyh("1");
+                xcfxEntity.setDelFlag("0");
+                xcfxEntity.setDzsh("2");
+                isNeeFc = true;
+            } else {
+                xcfxEntity.setIsyh("0");
+                xcfxEntity.setDelFlag("1");
+                xcfxEntity.setDzsh("0");
+            }
+            xcfxEntity.setLjfccs(xcfxEntity.getLjfccs()+1);
+           if(DataBaseManager.update(xcfxEntity))
+           {
+               result = 1;
+           }
         } catch (Exception e){
             e.printStackTrace();
         }
-
-        response.getWriter().print(jsonArray.toString());
+        response.getWriter().print(request);
     }
 
     //获取移交管理记录
@@ -465,16 +636,12 @@ public class DoServlet {
         String hql = "from TYdjdShEntity t where t.delFlag = 0 order by t.createDate desc";
         List<TYdjdShEntity> list = new ArrayList<>();
         JSONArray jsonArray = new JSONArray();
-
         try {
             list = DataBaseManager.query(hql, null);
-
             for (TYdjdShEntity ydjdShEntity : list){
                 JSONObject jsonObject = (JSONObject) JSON.toJSON(ydjdShEntity);
-
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 jsonObject.put("yjtime", sdf.format(ydjdShEntity.getCreateDate().getTime()));
-
                 jsonArray.add(jsonObject);
             }
         } catch (Exception e){

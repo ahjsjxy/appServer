@@ -5,6 +5,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.LongType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -235,6 +238,27 @@ public class DataBaseManager {
             }
         }
         return list;
+    }
+    public static int queryBySql(String sql)
+    {
+        Session session = null;
+        int maxId =0;
+        try{
+            Transaction tx = null;
+            session = getSession();
+            tx = session.beginTransaction();
+            Query query = session.createSQLQuery(sql).addScalar("id", IntegerType.INSTANCE);
+            List list = query.list();
+             if(list.size()>0){
+                 maxId = (int)list.get(0);
+             }
+            tx.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return  maxId;
     }
 
     /**

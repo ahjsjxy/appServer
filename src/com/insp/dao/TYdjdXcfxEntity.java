@@ -1,20 +1,58 @@
 package com.insp.dao;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by SteveChan on 2018/6/11.
+ * Created by SteveChan on 2018/6/19.
  */
 @Entity
-@javax.persistence.Table(name = "t_ydjd_xcfx", schema = "jeeplus_ani_big", catalog = "")
+@Table(name = "t_ydjd_xcfx", schema = "jeeplus_ani_big", catalog = "")
 public class TYdjdXcfxEntity {
     private int id;
+    private String bjxqy;
+    private String qydz;
+    private String qyfzr;
+    private String qyfzrzw;
+    private String qyfzrlxdh;
+    private String jccs;
+    private String jckssj;
+    private String jcjssj;
+    private String jgjz;
+    private String zfry1;
+    private String zfry1Zjhm;
+    private String zfry2;
+    private String zfry2Zjhm;
+    private String zfry3;
+    private String zfry3Zjhm;
+    private String jcjhid;
+    private Integer ljfccs;
+    private String jcqk;
+    private String jcry1Pic;
+    private String jcry2Pic;
+    private String bjcdwPic;
+    private String remarks;
+    private String createBy;
+    private Timestamp createDate;
+    private String updateBy;
+    private Timestamp updateDate;
+    private String delFlag;
+    private String resultPic;
+    private String isfc;
+    private String officeid;
+    private String isyh;
+    private String bjcqyid;
+    private String yjzt;
+    private String iszlzg;
+    private String zlzgsbh;
+    private String zlzgrq;
+    private String zlzgws;
+    private String xcjcPic;
+    private String uploadPic;
+    private String dzsh;
 
     @Id
-    @javax.persistence.Column(name = "id")
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -23,10 +61,8 @@ public class TYdjdXcfxEntity {
         this.id = id;
     }
 
-    private String bjxqy;
-
     @Basic
-    @javax.persistence.Column(name = "bjxqy")
+    @Column(name = "bjxqy")
     public String getBjxqy() {
         return bjxqy;
     }
@@ -35,10 +71,8 @@ public class TYdjdXcfxEntity {
         this.bjxqy = bjxqy;
     }
 
-    private String qydz;
-
     @Basic
-    @javax.persistence.Column(name = "qydz")
+    @Column(name = "qydz")
     public String getQydz() {
         return qydz;
     }
@@ -47,10 +81,8 @@ public class TYdjdXcfxEntity {
         this.qydz = qydz;
     }
 
-    private String qyfzr;
-
     @Basic
-    @javax.persistence.Column(name = "qyfzr")
+    @Column(name = "qyfzr")
     public String getQyfzr() {
         return qyfzr;
     }
@@ -59,10 +91,8 @@ public class TYdjdXcfxEntity {
         this.qyfzr = qyfzr;
     }
 
-    private String qyfzrzw;
-
     @Basic
-    @javax.persistence.Column(name = "qyfzrzw")
+    @Column(name = "qyfzrzw")
     public String getQyfzrzw() {
         return qyfzrzw;
     }
@@ -71,10 +101,8 @@ public class TYdjdXcfxEntity {
         this.qyfzrzw = qyfzrzw;
     }
 
-    private String qyfzrlxdh;
-
     @Basic
-    @javax.persistence.Column(name = "qyfzrlxdh")
+    @Column(name = "qyfzrlxdh")
     public String getQyfzrlxdh() {
         return qyfzrlxdh;
     }
@@ -83,10 +111,8 @@ public class TYdjdXcfxEntity {
         this.qyfzrlxdh = qyfzrlxdh;
     }
 
-    private String jccs;
-
     @Basic
-    @javax.persistence.Column(name = "jccs")
+    @Column(name = "jccs")
     public String getJccs() {
         return jccs;
     }
@@ -95,10 +121,8 @@ public class TYdjdXcfxEntity {
         this.jccs = jccs;
     }
 
-    private String jckssj;
-
     @Basic
-    @javax.persistence.Column(name = "jckssj")
+    @Column(name = "jckssj")
     public String getJckssj() {
         return jckssj;
     }
@@ -107,10 +131,8 @@ public class TYdjdXcfxEntity {
         this.jckssj = jckssj;
     }
 
-    private String jcjssj;
-
     @Basic
-    @javax.persistence.Column(name = "jcjssj")
+    @Column(name = "jcjssj")
     public String getJcjssj() {
         return jcjssj;
     }
@@ -119,10 +141,8 @@ public class TYdjdXcfxEntity {
         this.jcjssj = jcjssj;
     }
 
-    private String jgjz;
-
     @Basic
-    @javax.persistence.Column(name = "jgjz")
+    @Column(name = "jgjz")
     public String getJgjz() {
         return jgjz;
     }
@@ -131,10 +151,8 @@ public class TYdjdXcfxEntity {
         this.jgjz = jgjz;
     }
 
-    private String zfry1;
-
     @Basic
-    @javax.persistence.Column(name = "zfry1")
+    @Column(name = "zfry1")
     public String getZfry1() {
         return zfry1;
     }
@@ -143,10 +161,8 @@ public class TYdjdXcfxEntity {
         this.zfry1 = zfry1;
     }
 
-    private String zfry1Zjhm;
-
     @Basic
-    @javax.persistence.Column(name = "zfry1zjhm")
+    @Column(name = "zfry1zjhm")
     public String getZfry1Zjhm() {
         return zfry1Zjhm;
     }
@@ -155,10 +171,8 @@ public class TYdjdXcfxEntity {
         this.zfry1Zjhm = zfry1Zjhm;
     }
 
-    private String zfry2;
-
     @Basic
-    @javax.persistence.Column(name = "zfry2")
+    @Column(name = "zfry2")
     public String getZfry2() {
         return zfry2;
     }
@@ -167,10 +181,8 @@ public class TYdjdXcfxEntity {
         this.zfry2 = zfry2;
     }
 
-    private String zfry2Zjhm;
-
     @Basic
-    @javax.persistence.Column(name = "zfry2zjhm")
+    @Column(name = "zfry2zjhm")
     public String getZfry2Zjhm() {
         return zfry2Zjhm;
     }
@@ -179,10 +191,8 @@ public class TYdjdXcfxEntity {
         this.zfry2Zjhm = zfry2Zjhm;
     }
 
-    private String zfry3;
-
     @Basic
-    @javax.persistence.Column(name = "zfry3")
+    @Column(name = "zfry3")
     public String getZfry3() {
         return zfry3;
     }
@@ -191,10 +201,8 @@ public class TYdjdXcfxEntity {
         this.zfry3 = zfry3;
     }
 
-    private String zfry3Zjhm;
-
     @Basic
-    @javax.persistence.Column(name = "zfry3zjhm")
+    @Column(name = "zfry3zjhm")
     public String getZfry3Zjhm() {
         return zfry3Zjhm;
     }
@@ -203,10 +211,8 @@ public class TYdjdXcfxEntity {
         this.zfry3Zjhm = zfry3Zjhm;
     }
 
-    private String jcjhid;
-
     @Basic
-    @javax.persistence.Column(name = "jcjhid")
+    @Column(name = "jcjhid")
     public String getJcjhid() {
         return jcjhid;
     }
@@ -215,10 +221,18 @@ public class TYdjdXcfxEntity {
         this.jcjhid = jcjhid;
     }
 
-    private String jcqk;
+    @Basic
+    @Column(name = "ljfccs")
+    public Integer getLjfccs() {
+        return ljfccs;
+    }
+
+    public void setLjfccs(Integer ljfccs) {
+        this.ljfccs = ljfccs;
+    }
 
     @Basic
-    @javax.persistence.Column(name = "jcqk")
+    @Column(name = "jcqk")
     public String getJcqk() {
         return jcqk;
     }
@@ -227,10 +241,8 @@ public class TYdjdXcfxEntity {
         this.jcqk = jcqk;
     }
 
-    private String jcry1Pic;
-
     @Basic
-    @javax.persistence.Column(name = "jcry1_pic")
+    @Column(name = "jcry1_pic")
     public String getJcry1Pic() {
         return jcry1Pic;
     }
@@ -239,10 +251,8 @@ public class TYdjdXcfxEntity {
         this.jcry1Pic = jcry1Pic;
     }
 
-    private String jcry2Pic;
-
     @Basic
-    @javax.persistence.Column(name = "jcry2_pic")
+    @Column(name = "jcry2_pic")
     public String getJcry2Pic() {
         return jcry2Pic;
     }
@@ -251,10 +261,8 @@ public class TYdjdXcfxEntity {
         this.jcry2Pic = jcry2Pic;
     }
 
-    private String bjcdwPic;
-
     @Basic
-    @javax.persistence.Column(name = "bjcdw_pic")
+    @Column(name = "bjcdw_pic")
     public String getBjcdwPic() {
         return bjcdwPic;
     }
@@ -263,10 +271,8 @@ public class TYdjdXcfxEntity {
         this.bjcdwPic = bjcdwPic;
     }
 
-    private String remarks;
-
     @Basic
-    @javax.persistence.Column(name = "remarks")
+    @Column(name = "remarks")
     public String getRemarks() {
         return remarks;
     }
@@ -275,10 +281,8 @@ public class TYdjdXcfxEntity {
         this.remarks = remarks;
     }
 
-    private String createBy;
-
     @Basic
-    @javax.persistence.Column(name = "create_by")
+    @Column(name = "create_by")
     public String getCreateBy() {
         return createBy;
     }
@@ -287,10 +291,8 @@ public class TYdjdXcfxEntity {
         this.createBy = createBy;
     }
 
-    private Timestamp createDate;
-
     @Basic
-    @javax.persistence.Column(name = "create_date")
+    @Column(name = "create_date")
     public Timestamp getCreateDate() {
         return createDate;
     }
@@ -299,10 +301,8 @@ public class TYdjdXcfxEntity {
         this.createDate = createDate;
     }
 
-    private String updateBy;
-
     @Basic
-    @javax.persistence.Column(name = "update_by")
+    @Column(name = "update_by")
     public String getUpdateBy() {
         return updateBy;
     }
@@ -311,10 +311,8 @@ public class TYdjdXcfxEntity {
         this.updateBy = updateBy;
     }
 
-    private Timestamp updateDate;
-
     @Basic
-    @javax.persistence.Column(name = "update_date")
+    @Column(name = "update_date")
     public Timestamp getUpdateDate() {
         return updateDate;
     }
@@ -323,10 +321,8 @@ public class TYdjdXcfxEntity {
         this.updateDate = updateDate;
     }
 
-    private String delFlag;
-
     @Basic
-    @javax.persistence.Column(name = "del_flag")
+    @Column(name = "del_flag")
     public String getDelFlag() {
         return delFlag;
     }
@@ -335,10 +331,8 @@ public class TYdjdXcfxEntity {
         this.delFlag = delFlag;
     }
 
-    private String resultPic;
-
     @Basic
-    @javax.persistence.Column(name = "result_pic")
+    @Column(name = "result_pic")
     public String getResultPic() {
         return resultPic;
     }
@@ -347,10 +341,8 @@ public class TYdjdXcfxEntity {
         this.resultPic = resultPic;
     }
 
-    private String isfc;
-
     @Basic
-    @javax.persistence.Column(name = "isfc")
+    @Column(name = "isfc")
     public String getIsfc() {
         return isfc;
     }
@@ -359,10 +351,8 @@ public class TYdjdXcfxEntity {
         this.isfc = isfc;
     }
 
-    private String officeid;
-
     @Basic
-    @javax.persistence.Column(name = "officeid")
+    @Column(name = "officeid")
     public String getOfficeid() {
         return officeid;
     }
@@ -371,10 +361,8 @@ public class TYdjdXcfxEntity {
         this.officeid = officeid;
     }
 
-    private String isyh;
-
     @Basic
-    @javax.persistence.Column(name = "isyh")
+    @Column(name = "isyh")
     public String getIsyh() {
         return isyh;
     }
@@ -383,10 +371,8 @@ public class TYdjdXcfxEntity {
         this.isyh = isyh;
     }
 
-    private String bjcqyid;
-
     @Basic
-    @javax.persistence.Column(name = "bjcqyid")
+    @Column(name = "bjcqyid")
     public String getBjcqyid() {
         return bjcqyid;
     }
@@ -395,10 +381,8 @@ public class TYdjdXcfxEntity {
         this.bjcqyid = bjcqyid;
     }
 
-    private String yjzt;
-
     @Basic
-    @javax.persistence.Column(name = "yjzt")
+    @Column(name = "yjzt")
     public String getYjzt() {
         return yjzt;
     }
@@ -407,10 +391,8 @@ public class TYdjdXcfxEntity {
         this.yjzt = yjzt;
     }
 
-    private String iszlzg;
-
     @Basic
-    @javax.persistence.Column(name = "iszlzg")
+    @Column(name = "iszlzg")
     public String getIszlzg() {
         return iszlzg;
     }
@@ -419,10 +401,8 @@ public class TYdjdXcfxEntity {
         this.iszlzg = iszlzg;
     }
 
-    private String zlzgsbh;
-
     @Basic
-    @javax.persistence.Column(name = "zlzgsbh")
+    @Column(name = "zlzgsbh")
     public String getZlzgsbh() {
         return zlzgsbh;
     }
@@ -431,10 +411,8 @@ public class TYdjdXcfxEntity {
         this.zlzgsbh = zlzgsbh;
     }
 
-    private String zlzgrq;
-
     @Basic
-    @javax.persistence.Column(name = "zlzgrq")
+    @Column(name = "zlzgrq")
     public String getZlzgrq() {
         return zlzgrq;
     }
@@ -443,10 +421,8 @@ public class TYdjdXcfxEntity {
         this.zlzgrq = zlzgrq;
     }
 
-    private String zlzgws;
-
     @Basic
-    @javax.persistence.Column(name = "zlzgws")
+    @Column(name = "zlzgws")
     public String getZlzgws() {
         return zlzgws;
     }
@@ -455,10 +431,8 @@ public class TYdjdXcfxEntity {
         this.zlzgws = zlzgws;
     }
 
-    private String xcjcPic;
-
     @Basic
-    @javax.persistence.Column(name = "xcjc_pic")
+    @Column(name = "xcjc_pic")
     public String getXcjcPic() {
         return xcjcPic;
     }
@@ -467,16 +441,24 @@ public class TYdjdXcfxEntity {
         this.xcjcPic = xcjcPic;
     }
 
-    private String uploadPic;
-
     @Basic
-    @javax.persistence.Column(name = "upload_pic")
+    @Column(name = "upload_pic")
     public String getUploadPic() {
         return uploadPic;
     }
 
     public void setUploadPic(String uploadPic) {
         this.uploadPic = uploadPic;
+    }
+
+    @Basic
+    @Column(name = "dzsh")
+    public String getDzsh() {
+        return dzsh;
+    }
+
+    public void setDzsh(String dzsh) {
+        this.dzsh = dzsh;
     }
 
     @Override
@@ -503,6 +485,7 @@ public class TYdjdXcfxEntity {
         if (zfry3 != null ? !zfry3.equals(that.zfry3) : that.zfry3 != null) return false;
         if (zfry3Zjhm != null ? !zfry3Zjhm.equals(that.zfry3Zjhm) : that.zfry3Zjhm != null) return false;
         if (jcjhid != null ? !jcjhid.equals(that.jcjhid) : that.jcjhid != null) return false;
+        if (ljfccs != null ? !ljfccs.equals(that.ljfccs) : that.ljfccs != null) return false;
         if (jcqk != null ? !jcqk.equals(that.jcqk) : that.jcqk != null) return false;
         if (jcry1Pic != null ? !jcry1Pic.equals(that.jcry1Pic) : that.jcry1Pic != null) return false;
         if (jcry2Pic != null ? !jcry2Pic.equals(that.jcry2Pic) : that.jcry2Pic != null) return false;
@@ -525,6 +508,7 @@ public class TYdjdXcfxEntity {
         if (zlzgws != null ? !zlzgws.equals(that.zlzgws) : that.zlzgws != null) return false;
         if (xcjcPic != null ? !xcjcPic.equals(that.xcjcPic) : that.xcjcPic != null) return false;
         if (uploadPic != null ? !uploadPic.equals(that.uploadPic) : that.uploadPic != null) return false;
+        if (dzsh != null ? !dzsh.equals(that.dzsh) : that.dzsh != null) return false;
 
         return true;
     }
@@ -548,6 +532,7 @@ public class TYdjdXcfxEntity {
         result = 31 * result + (zfry3 != null ? zfry3.hashCode() : 0);
         result = 31 * result + (zfry3Zjhm != null ? zfry3Zjhm.hashCode() : 0);
         result = 31 * result + (jcjhid != null ? jcjhid.hashCode() : 0);
+        result = 31 * result + (ljfccs != null ? ljfccs.hashCode() : 0);
         result = 31 * result + (jcqk != null ? jcqk.hashCode() : 0);
         result = 31 * result + (jcry1Pic != null ? jcry1Pic.hashCode() : 0);
         result = 31 * result + (jcry2Pic != null ? jcry2Pic.hashCode() : 0);
@@ -570,6 +555,7 @@ public class TYdjdXcfxEntity {
         result = 31 * result + (zlzgws != null ? zlzgws.hashCode() : 0);
         result = 31 * result + (xcjcPic != null ? xcjcPic.hashCode() : 0);
         result = 31 * result + (uploadPic != null ? uploadPic.hashCode() : 0);
+        result = 31 * result + (dzsh != null ? dzsh.hashCode() : 0);
         return result;
     }
 }
