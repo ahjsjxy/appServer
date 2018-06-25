@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--标准mui.css-->
+<link rel="stylesheet" href="mui-master/dist/css/mui.min.css">
+<link href="fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="css/z-layout.css" rel="stylesheet" type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+
+
+<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />
+<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+-->
+<link rel="stylesheet" type="text/css" href="mui-master/examples/hello-mui/css/app.css" />
+<link rel="stylesheet" type="text/css" href="mui-master/examples/hello-mui/css/mui.picker.min.css"/>
+
+
+<!--App自定义的css-->
+<style type="text/css">
+ .mui-table-view-cell:after { background-color: #fff;}
+ .mui-slider-indicator .mui-indicator{ background: #fff;}
+ .mui-slider-indicator .mui-active.mui-indicator { width:16px; border-radius:6px;   background: #ff5722;}
+ .jjsrinput{height:28px !important; line-height:28px !important;border-bottom:1px solid #aaa !important;border-radius:0px !important;border-left:none !important;border-right:none !important;border-top:none !important;margin-bottom:0px !important;}
+
+</style>
+</head>
+<body>
+<!--toptar-->
+<header class="mui-bar mui-bar-nav"> 
+  <a class="mui-action-back mui-pull-left">
+   <i class="fa fa-angle-left"></i>
+  </a>
+  <h1 class="mui-title">责令整改</h1>
+</header>
+<!--content-->
+<div class="mui-content">
+
+<div class="z-row xcjcitem pad0 marT10">
+<div class="z-col">
+
+<div class="z-row szitem mui-table-view-cell padLR15">
+  <div class="jcshtxt">文书编号：</div>
+  <div class="z-col">
+    <input type="text" class="zlzgtextinput" placeholder="请输入..."/>
+  </div>
+</div>
+
+<div class="z-row szitem  mui-table-view-cell padLR15 demo1"  data-options='{}'>
+  <div class="jcshtxt">整改截止日期：</div>
+  <div  class="z-col sztstxt result">请选择</div>
+  <div class="xxbcrjt">
+     <i class="fa fa-angle-right fa-lg"></i>
+  </div>
+</div>
+
+</div>
+</div>
+
+
+<div class="z-row xcjcyesbtnbox" style="border:none;">
+<div class="z-col">
+ <button class="xcjcyesbtn">生成责令整改文书</button>
+</div>
+</div>
+
+
+</div>
+<!--footer-->
+
+<script src="mui-master/dist/js/mui.min.js"></script>
+<script src="mui-master/examples/hello-mui/js/mui.picker.min.js"></script>
+		<script>
+			(function($) {
+				$.init();
+				var result = $('.result');
+				var btns = $('.demo1');
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						var _self = this;
+						if(_self.picker) {
+							_self.picker.show(function (rs) {
+								result[i].innerText = rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						} else {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							_self.picker = new $.DtPicker(options);
+							_self.picker.show(function(rs) {
+								result[i].innerText = rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						}
+						
+					}, false);
+				});
+			})(mui);
+		</script>
+     <script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+	
+	</script>
+
+</body>
+</html>
