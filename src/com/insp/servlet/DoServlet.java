@@ -218,17 +218,21 @@ public class DoServlet {
             int xcfcId = 0;
             if (isNeeFc){
                 xcfxEntity.setResultPic(xcjxEntity.getResultPic());
-                 xcfcId = (int) DataBaseManager.add(xcfxEntity);
+                DataBaseManager.add(xcfxEntity);
+                String hlq = "from TYdjdXcfxEntity t where t.jcry1Pic = '"+xcfxEntity.getJcry1Pic()+"'";
+                List<TYdjdXcfxEntity> list = DataBaseManager.query(hlq,null);
+                if(list.size()>0){
+                    xcfcId = list.get(0).getId();
+                }
             }
             xcjxEntity.setXcfcId(xcfcId);
             resultUrl = xcjxEntity.getResultPic();
-            if ((int) DataBaseManager.add(xcjxEntity) > 0){
-                int id = jsonObject.getInteger("jcid");
-                if (id > 0){
-                    String undateHql = "update TJcjhEntity t set t.isClose = 1 where t.id = " + id;
-                    DataBaseManager.update(undateHql, null);
-                }
-            }
+            DataBaseManager.add(xcjxEntity);
+            int id = jsonObject.getInteger("jcid");
+            String undateHql = "update TJcjhEntity t set t.isClose = 1 where t.id = " + id;
+            DataBaseManager.update(undateHql, null);
+
+
             //插入复查数据
 
         } catch (Exception e){
@@ -286,6 +290,7 @@ public class DoServlet {
                 xcfxEntity.setZlzgrq(jsonObject.getString("time"));
                 xcfxEntity.setIsyh("1");
                 xcfxEntity.setIszlzg("1");
+                xcfxEntity.setDzsh("0");
                // xcfxEntity.setId(xcjxEntity.get);
                 StringBuffer namesfc = new StringBuffer();
                 StringBuffer valuesfc = new StringBuffer();
@@ -331,7 +336,7 @@ public class DoServlet {
         JSONArray jsonArray = new JSONArray();
        /* String officeId = jsonObjectP.getString("loginUserId");
         if (officeId.equals("10003")) {*/
-            String hql = "from TYdjdXcfxEntity t where t.delFlag = 0 and (t.isfc = 0 or t.isfc is null or t.isfc = 2) and t.dzsh = '2' and t.isyh = '1' and iszlzg = '1'  order by t.createDate desc";
+            String hql = "from TYdjdXcfxEntity t where t.delFlag = 0 and (t.isfc = 0 or t.isfc is null or t.isfc = 2) and t.dzsh = '2' and t.isyh = '1' and t.iszlzg = '1' and (t.yjzt is null or t.yjzt = '0') order by t.createDate desc";
             List<TYdjdXcfxEntity> list = new ArrayList<>();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             try {
@@ -424,8 +429,7 @@ public class DoServlet {
         String jcjhHql = "from TJcjhEntity t where t.isClose is null or t.isClose = ''";
         List<TJcjhEntity> jcjhs = DataBaseManager.query(jcjhHql, null);
         if (officeId.equals("100")) {
-            try {
-                companyHql = "from TBasicInformationEntity t";
+            try {                companyHql = "from TBasicInformationEntity t";
                 List<TBasicInformationEntity> companys = DataBaseManager.query(companyHql, null);
                 String allAreaHql = "from SysOfficeEntity t where t.delFlag = '0' and type='2'";
                 List<SysOfficeEntity> offices = DataBaseManager.query(allAreaHql,null);
@@ -594,9 +598,9 @@ public class DoServlet {
         String hql = "";
         String officeId = jsonObject.getString("officeId");
         if(officeId.equals("100")) {
-            hql = "from TYdjdXcfxEntity t where t.delFlag = 0 and (t.isfc = 0 or t.isfc is null or t.isfc = 2) and (t.dzsh = '0' or t.dzsh = '3') and t.isyh = '1' and t.iszlzg = '1' and t.yjzt = '0' order by t.createDate desc";
+            hql = "from TYdjdXcfxEntity t where t.delFlag = 0 and (t.isfc = 0 or t.isfc is null or t.isfc = 2) and (t.dzsh is null or t.dzsh = '3' or t.dzsh = '0') and t.isyh = '1' and t.iszlzg = '1' and (t.yjzt is null or t.yjzt = '0') order by t.createDate desc";
         } else{
-            hql = "from TYdjdXcfxEntity t where t.delFlag = 0 and (t.isfc = 0 or t.isfc is null or t.isfc = 2) and (t.dzsh = '0' or t.dzsh = '3') and t.isyh = '1' and t.iszlzg = '1' and t.yjzt = '0' and t.officeid = "+officeId+"order by t.createDate desc";
+            hql = "from TYdjdXcfxEntity t where t.delFlag = 0 and (t.isfc = 0 or t.isfc is null or t.isfc = 2) and (t.dzsh is null or t.dzsh = '3' or t.dzsh = '0') and t.isyh = '1' and t.iszlzg = '1' and (t.yjzt is null or t.yjzt = '0') and t.officeid = "+officeId+"order by t.createDate desc";
         }
         JSONArray jsonArray = new JSONArray();
         jsonArray = getXcfcEntity(hql,officeId);
@@ -656,7 +660,7 @@ public class DoServlet {
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = (JSONObject) JSON.parseObject(jsonStr);
         String jzId = jsonObject.getString("jzs");
-        String hql = "from TYdjdXcfxEntity t where t.delFlag = 0 and (t.isfc = 0 or t.isfc is null or t.isfc = 2) and (t.dzsh = '0' or t.dzsh = '3') and isyh = '1' and iszlzg = '1' and t.officeid = "+jzId+"order by t.createDate desc";
+        String hql = "from TYdjdXcfxEntity t where t.delFlag = 0 and (t.isfc = 0 or t.isfc is null or t.isfc = 2) and (t.dzsh = '0' or t.dzsh = '3') and t.isyh = '1' and t.iszlzg = '1' and t.officeid = "+jzId+"order by t.createDate desc";
         try{
             List<TYdjdXcfxEntity> list = DataBaseManager.query(hql,null);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
