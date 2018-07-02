@@ -15,7 +15,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DoServlet {
-    //用户登录,将用户信息及officeId和与该用户相同单位的成员返回给前端
+    /**
+     * 用户登录，将用户信息及officeId，loginUserId和与该用户相同单位的成员返回给前端
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JSONObject result = new JSONObject();
         result.put("result", 0);
@@ -102,7 +107,12 @@ public class DoServlet {
         response.getWriter().print(id);
     }
 
-    //步骤:1.解析参数 2.保存现场检查 3.修改检查计划 4.生成结果图,将地址返回给客户端
+    /**
+     * 步骤:1.解析参数 2.保存现场检查 3.修改检查计划 4.生成结果图,将地址返回给客户端
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     public void saveXcjc(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ImageUtil imageUtil = new ImageUtil();
         String resultUrl = "";
@@ -136,7 +146,7 @@ public class DoServlet {
             xcjxEntity.setCreateDate(new Timestamp(System.currentTimeMillis()));
             xcfxEntity.setCreateDate(new Timestamp(System.currentTimeMillis()));
 
-            //图片上传
+            //解析图片上传
             JSONArray uploadPics = (JSONArray) jsonObject.get("picArray");
             StringBuilder uploadStr = new StringBuilder();
             for(int i=0;i<uploadPics.size();i++){
@@ -243,30 +253,12 @@ public class DoServlet {
         response.getWriter().print(jsonObject.toString());
     }
 
-
-    //增加移交管理记录
-    /*public void saveYjgl(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String str = getRequestStr(request);
-        int result = 0;
-        try {
-            TYdjdShEntity shEntity = JSON.parseObject(str, new TypeReference<TYdjdShEntity>() {});
-            TYdjdXcfxEntity xcfxEntity = JSON.parseObject(str, new TypeReference<TYdjdXcfxEntity>() {});
-            shEntity.setCreateDate(new Timestamp(System.currentTimeMillis()));
-            shEntity.setDelFlag("0");
-            shEntity.setId(0);
-            DataBaseManager.add(shEntity);
-            xcfxEntity.setYjzt("1");
-            DataBaseManager.update(xcfxEntity);
-            result = 1;
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-
-        response.getWriter().print(result);
-    }*/
-
-
-    //增加复查记录(在现场检查记录中通过责令整改操作同时更改现场复查表中关于此条记录的状态)
+    /**
+     * 增加复查记录(在现场检查记录中通过责令整改操作同时更改现场复查表中关于此条记录的状态)
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     public void addXcfc(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ImageUtil imageUtil = new ImageUtil();
         String resultImagePath = null;
@@ -339,13 +331,16 @@ public class DoServlet {
         jsonObject.put("result", resultImagePath);
         response.getWriter().print(jsonObject.toString());
     }
-    //todo
+
+    /**
+     * 获取队长审核，如果是队长角色则能看到待审核的记录，如果不是则返回空数组
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     public void getDzsh(HttpServletRequest request,HttpServletResponse response) throws IOException {
         String jsonStr = getRequestStr(request);
-        //  JSONObject jsonObjectP = JSONObject.parseObject(jsonStr);
         JSONArray jsonArray = new JSONArray();
-       /*
-        if (officeId.equals("10003")) {*/
         JSONObject jsonObjectP = JSONObject.parseObject(jsonStr);
         String userId = jsonObjectP.getString("loginUserId");
         String roleName = "";
@@ -384,7 +379,9 @@ public class DoServlet {
          // }
         response.getWriter().print(jsonArray.toString());
     }
-
+   /**
+    * 更新队长审核状态，移交，或打回
+    */
 
     public void updateDzsh(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ImageUtil imageUtil = new ImageUtil();
@@ -445,6 +442,13 @@ public class DoServlet {
         response.getWriter().print(jsonObject);
     }
 
+    /**
+     * 获取现场检查，根据officeid，区里用户返回镇名，镇待检查企业数统计,
+     * 镇里用户则返回用户所在街镇的企业详细信息列表
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     public void getXcjc(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JSONArray jsonArray = new JSONArray();  //需要返回给客户端的数据(将所有的检查计划都转换成检查记录)
         String jsonStr = getRequestStr(request);
@@ -493,6 +497,12 @@ public class DoServlet {
         response.getWriter().print(jsonArray.toString());
     }
 
+    /**
+     * 根据街镇id获取当前街镇的企业
+     *  参数：企业的areadm 街镇编号jzid
+     * @param response
+     * @throws IOException
+     */
     public void getQyByJzId(HttpServletRequest request,HttpServletResponse response) throws  IOException{
         JSONArray jsonArray = new JSONArray();
         String jcdq = "";
@@ -506,6 +516,12 @@ public class DoServlet {
         response.getWriter().print(jsonArray.toString());
     }
 
+    /**
+     *
+     * @param companyHql
+     * @param param
+     * @return
+     */
     private JSONArray getJcjhQy(String companyHql,String param){
         JSONArray jsonArray = new JSONArray();
         String jcdq = "";
@@ -558,7 +574,13 @@ public class DoServlet {
         }
         return jsonArray;
     }
-    //根据id获取公司信息
+
+    /**
+     * 根据id获取公司信息
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     public void getCompanyById(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String id = getRequestStr(request);
         String hql = "from TBasicInformationEntity t where t.id = '" + id + "'";
@@ -589,9 +611,15 @@ public class DoServlet {
         response.getWriter().print(JSON.toJSONString(messages));
     }
 
-    //这里前端需要涉及到多次重组渲染,去除id
+    /**
+     * 这里前端需要涉及到多次重组渲染,去除id
+     * 获取检查记录，对应前端记录管理
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     public void getJcjl(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String hql = "from TYdjdXcjxEntity t where t.delFlag = 0 and t.isyh = '1' and (t.xcfcId <> 0 and t.xcfcId <> null) order by t.createDate asc";
+        String hql = "from TYdjdXcjxEntity t where t.delFlag = 0 order by t.createDate asc";
         List<TYdjdXcjxEntity> list = new ArrayList<>();
         JSONArray jsonArray = new JSONArray();
         jsonArray = getJcjlEntity(hql);
@@ -612,14 +640,14 @@ public class DoServlet {
         }
         return jsonArray;
     }
-    public void getJlgl(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        JSONArray jsonArray = new JSONArray();
-        String hql = "from TYdjdXcjxEntity t where t.delFlag = 0   order by t.createDate desc";
-        jsonArray = getJcjlEntity(hql);
-        response.getWriter().print(jsonArray.toString());
-    }
 
-    //获取现场复查记录
+
+    /**
+     * 获取现场复查记录，根据officeid来执行不同的hql、调用getXcfcEntity来详细处理
+     * @param request
+     * @param response
+     * @throws IOException
+     */
 
     public void getXcfc(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String jsonStr = getRequestStr(request);
@@ -635,7 +663,14 @@ public class DoServlet {
         jsonArray = getXcfcEntity(hql,officeId);
         response.getWriter().print(jsonArray.toString());
     }
-    //获取现场复查，根据officeId辨别是区用户还是镇用户，并且区返回各个镇的要检查企业数，镇名，镇的话直接返回需要复查企业详细信息列表
+
+    /**
+     * 获取现场复查，根据officeId辨别是区用户还是镇用户，执行不同的hql，并且区返回各个镇的计划检查企业数，镇名
+     * 镇的话直接返回需要复查的企业详细信息列表
+     * @param hql
+     * @param officeId
+     * @return
+     */
     private JSONArray getXcfcEntity(String hql,String officeId) {
         List<TYdjdXcfxEntity> list = new ArrayList<>();
         JSONArray jsonArray = new JSONArray();
@@ -682,7 +717,14 @@ public class DoServlet {
         }
         return jsonArray;
     }
-    //根据街镇id显示当前街镇需要复查的记录
+
+    /**
+     * 区用户登录获取现场复查显示的计划检查企业及企业数目点击该div后前台传入jzid获取该街镇需要检查的企业列表
+     * 根据街镇id显示当前街镇需要复查的记录
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     public void getXcfcByJz(HttpServletRequest request, HttpServletResponse response) throws IOException{
         String jsonStr = getRequestStr(request);
         JSONArray jsonArray = new JSONArray();
@@ -717,7 +759,13 @@ public class DoServlet {
         }
         response.getWriter().print(jsonArray.toString());
     }
-    //修改现场复查结果
+
+    /**
+     * 更新现场复查结果，如果通过则isfc置1，直接结束，不通过isfc置0，队长可看dzsh置2
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     public void updateXcfc(HttpServletRequest request, HttpServletResponse response) throws IOException{
         ImageUtil imageUtil = new ImageUtil();
         Boolean isNeedFc = false;
@@ -785,8 +833,7 @@ public class DoServlet {
                 xcfxEntity.setIsyh("0");
                 xcfxEntity.setIsfc("1");
                 xcfxEntity.setDzsh("0");
-                xcfxEntity.setJcjhid("");
-                xcfxEntity.setJcqk("");
+                xcfxEntity.setDelFlag("0");
             }
 
             DataBaseManager.update(xcfxEntity);
@@ -798,7 +845,12 @@ public class DoServlet {
         response.getWriter().print(result);
     }
 
-    //获取移交管理记录
+    /**
+     * 获取移交管理记录
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     public void getYjgl(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String hql = "from TYdjdShEntity t where t.delFlag = 0 order by t.createDate desc";
         List<TYdjdShEntity> list = new ArrayList<>();
@@ -880,7 +932,6 @@ public class DoServlet {
     public void signIn(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int result = -1;
         String json = getRequestStr(request);
-
         TQdxxEntity qdxxEntity = JSON.parseObject(json, new TypeReference<TQdxxEntity>() {});
         qdxxEntity.setCreateDate(new Timestamp(System.currentTimeMillis()));
         qdxxEntity.setIsyx("1");
