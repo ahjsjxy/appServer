@@ -1,8 +1,10 @@
 package com.insp.dao;
 
 import javax.persistence.*;
-import java.util.Objects;
 
+/**
+ * Created by SteveChan on 2018/7/2.
+ */
 @Entity
 @Table(name = "t_jcx", schema = "jeeplus_ani_big", catalog = "")
 public class TJcxEntity {
@@ -14,10 +16,12 @@ public class TJcxEntity {
     private String xgr;
     private String type;
     private Integer jcjhid;
+    private String jcxid;
+    private String kind;
+    private String wsdesc;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -27,7 +31,7 @@ public class TJcxEntity {
     }
 
     @Basic
-    @Column(name = "jcx", nullable = true, length = 500)
+    @Column(name = "jcx")
     public String getJcx() {
         return jcx;
     }
@@ -37,7 +41,7 @@ public class TJcxEntity {
     }
 
     @Basic
-    @Column(name = "cjsj", nullable = true, length = 45)
+    @Column(name = "cjsj")
     public String getCjsj() {
         return cjsj;
     }
@@ -47,7 +51,7 @@ public class TJcxEntity {
     }
 
     @Basic
-    @Column(name = "cjr", nullable = true, length = 45)
+    @Column(name = "cjr")
     public String getCjr() {
         return cjr;
     }
@@ -57,7 +61,7 @@ public class TJcxEntity {
     }
 
     @Basic
-    @Column(name = "xgsj", nullable = true, length = 45)
+    @Column(name = "xgsj")
     public String getXgsj() {
         return xgsj;
     }
@@ -67,7 +71,7 @@ public class TJcxEntity {
     }
 
     @Basic
-    @Column(name = "xgr", nullable = true, length = 45)
+    @Column(name = "xgr")
     public String getXgr() {
         return xgr;
     }
@@ -77,7 +81,7 @@ public class TJcxEntity {
     }
 
     @Basic
-    @Column(name = "type", nullable = true, length = 45)
+    @Column(name = "type")
     public String getType() {
         return type;
     }
@@ -87,7 +91,7 @@ public class TJcxEntity {
     }
 
     @Basic
-    @Column(name = "jcjhid", nullable = true)
+    @Column(name = "jcjhid")
     public Integer getJcjhid() {
         return jcjhid;
     }
@@ -96,24 +100,71 @@ public class TJcxEntity {
         this.jcjhid = jcjhid;
     }
 
+    @Basic
+    @Column(name = "jcxid")
+    public String getJcxid() {
+        return jcxid;
+    }
+
+    public void setJcxid(String jcxid) {
+        this.jcxid = jcxid;
+    }
+
+    @Basic
+    @Column(name = "kind")
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
+    @Basic
+    @Column(name = "wsdesc")
+    public String getWsdesc() {
+        return wsdesc;
+    }
+
+    public void setWsdesc(String wsdesc) {
+        this.wsdesc = wsdesc;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         TJcxEntity that = (TJcxEntity) o;
-        return id == that.id &&
-                Objects.equals(jcx, that.jcx) &&
-                Objects.equals(cjsj, that.cjsj) &&
-                Objects.equals(cjr, that.cjr) &&
-                Objects.equals(xgsj, that.xgsj) &&
-                Objects.equals(xgr, that.xgr) &&
-                Objects.equals(type, that.type) &&
-                Objects.equals(jcjhid, that.jcjhid);
+
+        if (id != that.id) return false;
+        if (jcx != null ? !jcx.equals(that.jcx) : that.jcx != null) return false;
+        if (cjsj != null ? !cjsj.equals(that.cjsj) : that.cjsj != null) return false;
+        if (cjr != null ? !cjr.equals(that.cjr) : that.cjr != null) return false;
+        if (xgsj != null ? !xgsj.equals(that.xgsj) : that.xgsj != null) return false;
+        if (xgr != null ? !xgr.equals(that.xgr) : that.xgr != null) return false;
+        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        if (jcjhid != null ? !jcjhid.equals(that.jcjhid) : that.jcjhid != null) return false;
+        if (jcxid != null ? !jcxid.equals(that.jcxid) : that.jcxid != null) return false;
+        if (kind != null ? !kind.equals(that.kind) : that.kind != null) return false;
+        if (wsdesc != null ? !wsdesc.equals(that.wsdesc) : that.wsdesc != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, jcx, cjsj, cjr, xgsj, xgr, type, jcjhid);
+        int result = id;
+        result = 31 * result + (jcx != null ? jcx.hashCode() : 0);
+        result = 31 * result + (cjsj != null ? cjsj.hashCode() : 0);
+        result = 31 * result + (cjr != null ? cjr.hashCode() : 0);
+        result = 31 * result + (xgsj != null ? xgsj.hashCode() : 0);
+        result = 31 * result + (xgr != null ? xgr.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (jcjhid != null ? jcjhid.hashCode() : 0);
+        result = 31 * result + (jcxid != null ? jcxid.hashCode() : 0);
+        result = 31 * result + (kind != null ? kind.hashCode() : 0);
+        result = 31 * result + (wsdesc != null ? wsdesc.hashCode() : 0);
+        return result;
     }
 }

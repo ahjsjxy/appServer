@@ -1,10 +1,12 @@
 package com.insp.dao;
 
 import javax.persistence.*;
-import java.util.Objects;
 
+/**
+ * Created by SteveChan on 2018/7/9.
+ */
 @Entity
-@Table(name = "t_jcjh", schema = "company_inspection", catalog = "")
+@Table(name = "t_jcjh", schema = "jeeplus_ani_big", catalog = "")
 public class TJcjhEntity {
     private int id;
     private String jcx;
@@ -16,9 +18,12 @@ public class TJcjhEntity {
     private String cjr;
     private String zxdw;
     private String isClose;
+    private String officeid;
+    private String fId;
+    private String zxr;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -28,7 +33,7 @@ public class TJcjhEntity {
     }
 
     @Basic
-    @Column(name = "jcx", nullable = true, length = 500)
+    @Column(name = "jcx")
     public String getJcx() {
         return jcx;
     }
@@ -38,7 +43,7 @@ public class TJcjhEntity {
     }
 
     @Basic
-    @Column(name = "jcqy", nullable = true, length = 500)
+    @Column(name = "jcqy")
     public String getJcqy() {
         return jcqy;
     }
@@ -48,7 +53,7 @@ public class TJcjhEntity {
     }
 
     @Basic
-    @Column(name = "jhlx", nullable = true, length = 45)
+    @Column(name = "jhlx")
     public String getJhlx() {
         return jhlx;
     }
@@ -58,7 +63,7 @@ public class TJcjhEntity {
     }
 
     @Basic
-    @Column(name = "jckssj", nullable = true, length = 100)
+    @Column(name = "jckssj")
     public String getJckssj() {
         return jckssj;
     }
@@ -68,7 +73,7 @@ public class TJcjhEntity {
     }
 
     @Basic
-    @Column(name = "jcjssj", nullable = true, length = 100)
+    @Column(name = "jcjssj")
     public String getJcjssj() {
         return jcjssj;
     }
@@ -78,7 +83,7 @@ public class TJcjhEntity {
     }
 
     @Basic
-    @Column(name = "cjsj", nullable = true, length = 100)
+    @Column(name = "cjsj")
     public String getCjsj() {
         return cjsj;
     }
@@ -88,7 +93,7 @@ public class TJcjhEntity {
     }
 
     @Basic
-    @Column(name = "cjr", nullable = true, length = 45)
+    @Column(name = "cjr")
     public String getCjr() {
         return cjr;
     }
@@ -98,7 +103,7 @@ public class TJcjhEntity {
     }
 
     @Basic
-    @Column(name = "zxdw", nullable = true, length = 45)
+    @Column(name = "zxdw")
     public String getZxdw() {
         return zxdw;
     }
@@ -108,7 +113,7 @@ public class TJcjhEntity {
     }
 
     @Basic
-    @Column(name = "isClose", nullable = true, length = 45)
+    @Column(name = "isClose")
     public String getIsClose() {
         return isClose;
     }
@@ -117,26 +122,75 @@ public class TJcjhEntity {
         this.isClose = isClose;
     }
 
+    @Basic
+    @Column(name = "officeid")
+    public String getOfficeid() {
+        return officeid;
+    }
+
+    public void setOfficeid(String officeid) {
+        this.officeid = officeid;
+    }
+
+    @Basic
+    @Column(name = "f_id")
+    public String getfId() {
+        return fId;
+    }
+
+    public void setfId(String fId) {
+        this.fId = fId;
+    }
+
+    @Basic
+    @Column(name = "zxr")
+    public String getZxr() {
+        return zxr;
+    }
+
+    public void setZxr(String zxr) {
+        this.zxr = zxr;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         TJcjhEntity that = (TJcjhEntity) o;
-        return id == that.id &&
-                Objects.equals(jcx, that.jcx) &&
-                Objects.equals(jcqy, that.jcqy) &&
-                Objects.equals(jhlx, that.jhlx) &&
-                Objects.equals(jckssj, that.jckssj) &&
-                Objects.equals(jcjssj, that.jcjssj) &&
-                Objects.equals(cjsj, that.cjsj) &&
-                Objects.equals(cjr, that.cjr) &&
-                Objects.equals(zxdw, that.zxdw) &&
-                Objects.equals(isClose, that.isClose);
+
+        if (id != that.id) return false;
+        if (jcx != null ? !jcx.equals(that.jcx) : that.jcx != null) return false;
+        if (jcqy != null ? !jcqy.equals(that.jcqy) : that.jcqy != null) return false;
+        if (jhlx != null ? !jhlx.equals(that.jhlx) : that.jhlx != null) return false;
+        if (jckssj != null ? !jckssj.equals(that.jckssj) : that.jckssj != null) return false;
+        if (jcjssj != null ? !jcjssj.equals(that.jcjssj) : that.jcjssj != null) return false;
+        if (cjsj != null ? !cjsj.equals(that.cjsj) : that.cjsj != null) return false;
+        if (cjr != null ? !cjr.equals(that.cjr) : that.cjr != null) return false;
+        if (zxdw != null ? !zxdw.equals(that.zxdw) : that.zxdw != null) return false;
+        if (isClose != null ? !isClose.equals(that.isClose) : that.isClose != null) return false;
+        if (officeid != null ? !officeid.equals(that.officeid) : that.officeid != null) return false;
+        if (fId != null ? !fId.equals(that.fId) : that.fId != null) return false;
+        if (zxr != null ? !zxr.equals(that.zxr) : that.zxr != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, jcx, jcqy, jhlx, jckssj, jcjssj, cjsj, cjr, zxdw, isClose);
+        int result = id;
+        result = 31 * result + (jcx != null ? jcx.hashCode() : 0);
+        result = 31 * result + (jcqy != null ? jcqy.hashCode() : 0);
+        result = 31 * result + (jhlx != null ? jhlx.hashCode() : 0);
+        result = 31 * result + (jckssj != null ? jckssj.hashCode() : 0);
+        result = 31 * result + (jcjssj != null ? jcjssj.hashCode() : 0);
+        result = 31 * result + (cjsj != null ? cjsj.hashCode() : 0);
+        result = 31 * result + (cjr != null ? cjr.hashCode() : 0);
+        result = 31 * result + (zxdw != null ? zxdw.hashCode() : 0);
+        result = 31 * result + (isClose != null ? isClose.hashCode() : 0);
+        result = 31 * result + (officeid != null ? officeid.hashCode() : 0);
+        result = 31 * result + (fId != null ? fId.hashCode() : 0);
+        result = 31 * result + (zxr != null ? zxr.hashCode() : 0);
+        return result;
     }
 }

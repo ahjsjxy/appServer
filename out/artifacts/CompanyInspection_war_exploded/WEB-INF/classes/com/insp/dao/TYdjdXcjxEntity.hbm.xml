@@ -24,6 +24,8 @@
         <property name="zfry2Zjhm" column="zfry2zjhm"/>
         <property name="zfry3" column="zfry3"/>
         <property name="zfry3Zjhm" column="zfry3zjhm"/>
+        <property name="jcxwsdesc" column="jcxwsdesc"/>
+        <property name="jcjhlb" column="jcjhlb"/>
         <property name="jcjhid" column="jcjhid"/>
         <property name="jcqk" column="jcqk"/>
         <property name="jcry1Pic" column="jcry1_pic"/>
@@ -45,7 +47,11 @@
         <property name="zlzgrq" column="zlzgrq"/>
         <property name="zlzgws" column="zlzgws"/>
         <property name="xcjcPic" column="xcjc_pic"/>
+        <property name="fcjcPic" column="fcjc_pic"/>
+        <property name="fckssj" column="fckssj"/>
+        <property name="fcjssj" column="fcjssj"/>
         <property name="xcfcId" column="xcfc_id"/>
         <property name="uploadPic" column="upload_pic"/>
+        <property name="dzshyj" column="dzshyj"/>
     </class>
 </hibernate-mapping>

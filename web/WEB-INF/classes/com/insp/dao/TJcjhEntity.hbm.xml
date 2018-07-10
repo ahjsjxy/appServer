@@ -4,4 +4,19 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
+    <class name="com.insp.dao.TJcjhEntity" table="t_jcjh" schema="jeeplus_ani_big">
+        <id name="id" column="id"/>
+        <property name="jcx" column="jcx"/>
+        <property name="jcqy" column="jcqy"/>
+        <property name="jhlx" column="jhlx"/>
+        <property name="jckssj" column="jckssj"/>
+        <property name="jcjssj" column="jcjssj"/>
+        <property name="cjsj" column="cjsj"/>
+        <property name="cjr" column="cjr"/>
+        <property name="zxdw" column="zxdw"/>
+        <property name="isClose" column="isClose"/>
+        <property name="officeid" column="officeid"/>
+        <property name="fId" column="f_id"/>
+        <property name="zxr" column="zxr"/>
+    </class>
 </hibernate-mapping>

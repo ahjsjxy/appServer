@@ -89,35 +89,38 @@ public class JcGenerator {
 
     }
 
-    public void write(JcModel model, File outFile) throws IOException {
+    public void write(JcModel model, File outFile, int flagL) throws IOException {
         BufferedImage image = ImageIO.read(inFile);
         Graphics g = image.getGraphics();
 
         g.setColor(Color.BLACK); // 写入内容
         g.setFont(new Font("宋体", Font.BOLD, 18));
         Field[] fields = JcModel.class.getDeclaredFields();
-        for (Field f : fields) {
-            String key = f.getName();
-            try {
-                Object valObj = f.get(model);
-                LocationModel locDesc = LOC_MAP.get(key); // 显示位置定义
-                switch (key) {
-                    case "jcrName1":
-                        BufferedImage img = (BufferedImage) valObj;
-                        g.drawImage(img, locDesc.getX(), locDesc.getY(), img.getWidth(), img.getHeight(), null);
-                        break;
-                    case "jcrName2":
-                        BufferedImage imgs = (BufferedImage) valObj;
-                        g.drawImage(imgs, locDesc.getX(), locDesc.getY(), imgs.getWidth(), imgs.getHeight(), null);
-                        break;
-                    case "fzrName":
-                        BufferedImage _imgs = (BufferedImage) valObj;
-                        g.drawImage(_imgs, locDesc.getX(), locDesc.getY(), _imgs.getWidth(), _imgs.getHeight(), null);
-                        break;
-                    case "qrCode":
-                        BufferedImage _img = (BufferedImage) valObj;
-                        g.drawImage(_img, locDesc.getX(), locDesc.getY(), _img.getWidth(), _img.getHeight(), null);
-                        break;
+            for (Field f : fields) {
+                String key = f.getName();
+                try {
+                    Object valObj = f.get(model);
+                    LocationModel locDesc = LOC_MAP.get(key); // 显示位置定义
+                    switch (key) {
+                        case "jcrName1":
+                            BufferedImage img = (BufferedImage) valObj;
+                            g.drawImage(img, locDesc.getX(), locDesc.getY(), img.getWidth(), img.getHeight(), null);
+                            break;
+                        case "jcrName2":
+                            BufferedImage imgs = (BufferedImage) valObj;
+                            g.drawImage(imgs, locDesc.getX(), locDesc.getY(), imgs.getWidth(), imgs.getHeight(), null);
+                            break;
+                        case "fzrName":
+                            BufferedImage _imgs = (BufferedImage) valObj;
+                            g.drawImage(_imgs, locDesc.getX(), locDesc.getY(), _imgs.getWidth(), _imgs.getHeight(), null);
+                            break;
+                        case "qrCode":
+                            BufferedImage _img = (BufferedImage) valObj;
+                            if (_img == null) {
+                                _img = new BufferedImage(300, 300, BufferedImage.TYPE_INT_RGB);
+                            }
+                            g.drawImage(_img, locDesc.getX(), locDesc.getY(), _img.getWidth(), _img.getHeight(), null);
+                            break;
 					/*case "jcqkArray":
 						String vals[] = (String[]) valObj;
 						int i=0;
@@ -125,36 +128,37 @@ public class JcGenerator {
 							g.drawString(q, locDesc.getX(), locDesc.getY() + i * locDesc.getInterval()); // 绘制位置
 							i++;
 						}*/
-                    case "jcqkArray":
-                        int j = 1;
-                        int i =0;
-                        String vals[] = (String[]) valObj;
-                        for (String str : vals) {
-                            if(!"".equals(str) && str != null) {
-                                String strL = str.substring(str.indexOf(".") + 1, str.length());
-                                if (j == 1) {
-                                    g.drawString(j + "." + strL, locDesc.getX() + 155, locDesc.getY() - 54);
-                                    j++;
-                                } else {
-                                    g.drawString(j + "." + strL, locDesc.getX(), locDesc.getY() + i * locDesc.getInterval()); // 绘制位置
-                                    j++;
-                                    i++;
+                        case "jcqkArray":
+                            int j = 1;
+                            int i = 0;
+                            String vals[] = (String[]) valObj;
+                            for (String str : vals) {
+                                if (!"".equals(str) && str != null) {
+                                    String strL = str.substring(str.indexOf(".") + 1, str.length());
+                                    if (j == 1) {
+                                        g.drawString(j + "." + strL, locDesc.getX() + 155, locDesc.getY() - 54);
+                                        j++;
+                                    } else {
+                                        g.drawString(j + "." + strL, locDesc.getX(), locDesc.getY() + i * locDesc.getInterval()); // 绘制位置
+                                        j++;
+                                        i++;
+                                    }
                                 }
                             }
-                        }
-                        break;
-                    default:
-                        String defVal = String.valueOf(valObj); // 待显示的字符串
-                        g.drawString(defVal, locDesc.getX(), locDesc.getY()); // 绘制位置
+                            break;
+                        default:
+                            String defVal = String.valueOf(valObj); // 待显示的字符串
+                            g.drawString(defVal, locDesc.getX(), locDesc.getY()); // 绘制位置
+                    }
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
             }
-        }
-        g.dispose();
-        ImageIO.write(image, "jpg", outFile);
-    }
+            g.dispose();
+            ImageIO.write(image, "jpg", outFile);
 
+
+    }
 }

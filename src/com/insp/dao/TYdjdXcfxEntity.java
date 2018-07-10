@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import java.sql.Timestamp;
 
 /**
- * Created by SteveChan on 2018/6/26.
+ * Created by SteveChan on 2018/7/5.
  */
 @Entity
 @javax.persistence.Table(name = "t_ydjd_xcfx", schema = "jeeplus_ani_big", catalog = "")
@@ -201,6 +201,18 @@ public class TYdjdXcfxEntity {
 
     public void setZfry3Zjhm(String zfry3Zjhm) {
         this.zfry3Zjhm = zfry3Zjhm;
+    }
+
+    private String jcjhlb;
+
+    @Basic
+    @javax.persistence.Column(name = "jcjhlb")
+    public String getJcjhlb() {
+        return jcjhlb;
+    }
+
+    public void setJcjhlb(String jcjhlb) {
+        this.jcjhlb = jcjhlb;
     }
 
     private String jcjhid;
@@ -503,6 +515,30 @@ public class TYdjdXcfxEntity {
         this.dzsh = dzsh;
     }
 
+    private String dzshyj;
+
+    @Basic
+    @javax.persistence.Column(name = "dzshyj")
+    public String getDzshyj() {
+        return dzshyj;
+    }
+
+    public void setDzshyj(String dzshyj) {
+        this.dzshyj = dzshyj;
+    }
+
+    private String jcxwsdesc;
+
+    @Basic
+    @javax.persistence.Column(name = "jcxwsdesc")
+    public String getJcxwsdesc() {
+        return jcxwsdesc;
+    }
+
+    public void setJcxwsdesc(String jcxwsdesc) {
+        this.jcxwsdesc = jcxwsdesc;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -526,6 +562,7 @@ public class TYdjdXcfxEntity {
         if (zfry2Zjhm != null ? !zfry2Zjhm.equals(that.zfry2Zjhm) : that.zfry2Zjhm != null) return false;
         if (zfry3 != null ? !zfry3.equals(that.zfry3) : that.zfry3 != null) return false;
         if (zfry3Zjhm != null ? !zfry3Zjhm.equals(that.zfry3Zjhm) : that.zfry3Zjhm != null) return false;
+        if (jcjhlb != null ? !jcjhlb.equals(that.jcjhlb) : that.jcjhlb != null) return false;
         if (jcjhid != null ? !jcjhid.equals(that.jcjhid) : that.jcjhid != null) return false;
         if (ljfccs != null ? !ljfccs.equals(that.ljfccs) : that.ljfccs != null) return false;
         if (jcqk != null ? !jcqk.equals(that.jcqk) : that.jcqk != null) return false;
@@ -551,6 +588,8 @@ public class TYdjdXcfxEntity {
         if (xcjcPic != null ? !xcjcPic.equals(that.xcjcPic) : that.xcjcPic != null) return false;
         if (uploadPic != null ? !uploadPic.equals(that.uploadPic) : that.uploadPic != null) return false;
         if (dzsh != null ? !dzsh.equals(that.dzsh) : that.dzsh != null) return false;
+        if (dzshyj != null ? !dzshyj.equals(that.dzshyj) : that.dzshyj != null) return false;
+        if (jcxwsdesc != null ? !jcxwsdesc.equals(that.jcxwsdesc) : that.jcxwsdesc != null) return false;
 
         return true;
     }
@@ -573,6 +612,7 @@ public class TYdjdXcfxEntity {
         result = 31 * result + (zfry2Zjhm != null ? zfry2Zjhm.hashCode() : 0);
         result = 31 * result + (zfry3 != null ? zfry3.hashCode() : 0);
         result = 31 * result + (zfry3Zjhm != null ? zfry3Zjhm.hashCode() : 0);
+        result = 31 * result + (jcjhlb != null ? jcjhlb.hashCode() : 0);
         result = 31 * result + (jcjhid != null ? jcjhid.hashCode() : 0);
         result = 31 * result + (ljfccs != null ? ljfccs.hashCode() : 0);
         result = 31 * result + (jcqk != null ? jcqk.hashCode() : 0);
@@ -598,6 +638,8 @@ public class TYdjdXcfxEntity {
         result = 31 * result + (xcjcPic != null ? xcjcPic.hashCode() : 0);
         result = 31 * result + (uploadPic != null ? uploadPic.hashCode() : 0);
         result = 31 * result + (dzsh != null ? dzsh.hashCode() : 0);
+        result = 31 * result + (dzshyj != null ? dzshyj.hashCode() : 0);
+        result = 31 * result + (jcxwsdesc != null ? jcxwsdesc.hashCode() : 0);
         return result;
     }
 }

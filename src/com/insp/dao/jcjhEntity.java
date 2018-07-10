@@ -5,6 +5,16 @@ package com.insp.dao;
  */
 public class JcjhEntity {
     public String jcjh;
+    public String jcjhlb;
+
+    public String getJcjhlb() {
+        return jcjhlb;
+    }
+
+    public void setJcjhlb(String jcjhlb) {
+        this.jcjhlb = jcjhlb;
+    }
+
     public boolean isActive;
     public boolean isChecked;
 

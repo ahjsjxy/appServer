@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import java.sql.Timestamp;
 
 /**
- * Created by SteveChan on 2018/6/12.
+ * Created by SteveChan on 2018/7/6.
  */
 @Entity
 @javax.persistence.Table(name = "t_ydjd_xcjx", schema = "jeeplus_ani_big", catalog = "")
@@ -237,6 +237,30 @@ public class TYdjdXcjxEntity {
 
     public void setZfry3Zjhm(String zfry3Zjhm) {
         this.zfry3Zjhm = zfry3Zjhm;
+    }
+
+    private String jcxwsdesc;
+
+    @Basic
+    @javax.persistence.Column(name = "jcxwsdesc")
+    public String getJcxwsdesc() {
+        return jcxwsdesc;
+    }
+
+    public void setJcxwsdesc(String jcxwsdesc) {
+        this.jcxwsdesc = jcxwsdesc;
+    }
+
+    private String jcjhlb;
+
+    @Basic
+    @javax.persistence.Column(name = "jcjhlb")
+    public String getJcjhlb() {
+        return jcjhlb;
+    }
+
+    public void setJcjhlb(String jcjhlb) {
+        this.jcjhlb = jcjhlb;
     }
 
     private String jcjhid;
@@ -491,6 +515,42 @@ public class TYdjdXcjxEntity {
         this.xcjcPic = xcjcPic;
     }
 
+    private String fcjcPic;
+
+    @Basic
+    @javax.persistence.Column(name = "fcjc_pic")
+    public String getFcjcPic() {
+        return fcjcPic;
+    }
+
+    public void setFcjcPic(String fcjcPic) {
+        this.fcjcPic = fcjcPic;
+    }
+
+    private String fckssj;
+
+    @Basic
+    @javax.persistence.Column(name = "fckssj")
+    public String getFckssj() {
+        return fckssj;
+    }
+
+    public void setFckssj(String fckssj) {
+        this.fckssj = fckssj;
+    }
+
+    private String fcjssj;
+
+    @Basic
+    @javax.persistence.Column(name = "fcjssj")
+    public String getFcjssj() {
+        return fcjssj;
+    }
+
+    public void setFcjssj(String fcjssj) {
+        this.fcjssj = fcjssj;
+    }
+
     private Integer xcfcId;
 
     @Basic
@@ -513,6 +573,18 @@ public class TYdjdXcjxEntity {
 
     public void setUploadPic(String uploadPic) {
         this.uploadPic = uploadPic;
+    }
+
+    private String dzshyj;
+
+    @Basic
+    @javax.persistence.Column(name = "dzshyj")
+    public String getDzshyj() {
+        return dzshyj;
+    }
+
+    public void setDzshyj(String dzshyj) {
+        this.dzshyj = dzshyj;
     }
 
     @Override
@@ -541,6 +613,8 @@ public class TYdjdXcjxEntity {
         if (zfry2Zjhm != null ? !zfry2Zjhm.equals(that.zfry2Zjhm) : that.zfry2Zjhm != null) return false;
         if (zfry3 != null ? !zfry3.equals(that.zfry3) : that.zfry3 != null) return false;
         if (zfry3Zjhm != null ? !zfry3Zjhm.equals(that.zfry3Zjhm) : that.zfry3Zjhm != null) return false;
+        if (jcxwsdesc != null ? !jcxwsdesc.equals(that.jcxwsdesc) : that.jcxwsdesc != null) return false;
+        if (jcjhlb != null ? !jcjhlb.equals(that.jcjhlb) : that.jcjhlb != null) return false;
         if (jcjhid != null ? !jcjhid.equals(that.jcjhid) : that.jcjhid != null) return false;
         if (jcqk != null ? !jcqk.equals(that.jcqk) : that.jcqk != null) return false;
         if (jcry1Pic != null ? !jcry1Pic.equals(that.jcry1Pic) : that.jcry1Pic != null) return false;
@@ -562,8 +636,12 @@ public class TYdjdXcjxEntity {
         if (zlzgrq != null ? !zlzgrq.equals(that.zlzgrq) : that.zlzgrq != null) return false;
         if (zlzgws != null ? !zlzgws.equals(that.zlzgws) : that.zlzgws != null) return false;
         if (xcjcPic != null ? !xcjcPic.equals(that.xcjcPic) : that.xcjcPic != null) return false;
+        if (fcjcPic != null ? !fcjcPic.equals(that.fcjcPic) : that.fcjcPic != null) return false;
+        if (fckssj != null ? !fckssj.equals(that.fckssj) : that.fckssj != null) return false;
+        if (fcjssj != null ? !fcjssj.equals(that.fcjssj) : that.fcjssj != null) return false;
         if (xcfcId != null ? !xcfcId.equals(that.xcfcId) : that.xcfcId != null) return false;
         if (uploadPic != null ? !uploadPic.equals(that.uploadPic) : that.uploadPic != null) return false;
+        if (dzshyj != null ? !dzshyj.equals(that.dzshyj) : that.dzshyj != null) return false;
 
         return true;
     }
@@ -589,6 +667,8 @@ public class TYdjdXcjxEntity {
         result = 31 * result + (zfry2Zjhm != null ? zfry2Zjhm.hashCode() : 0);
         result = 31 * result + (zfry3 != null ? zfry3.hashCode() : 0);
         result = 31 * result + (zfry3Zjhm != null ? zfry3Zjhm.hashCode() : 0);
+        result = 31 * result + (jcxwsdesc != null ? jcxwsdesc.hashCode() : 0);
+        result = 31 * result + (jcjhlb != null ? jcjhlb.hashCode() : 0);
         result = 31 * result + (jcjhid != null ? jcjhid.hashCode() : 0);
         result = 31 * result + (jcqk != null ? jcqk.hashCode() : 0);
         result = 31 * result + (jcry1Pic != null ? jcry1Pic.hashCode() : 0);
@@ -610,8 +690,12 @@ public class TYdjdXcjxEntity {
         result = 31 * result + (zlzgrq != null ? zlzgrq.hashCode() : 0);
         result = 31 * result + (zlzgws != null ? zlzgws.hashCode() : 0);
         result = 31 * result + (xcjcPic != null ? xcjcPic.hashCode() : 0);
+        result = 31 * result + (fcjcPic != null ? fcjcPic.hashCode() : 0);
+        result = 31 * result + (fckssj != null ? fckssj.hashCode() : 0);
+        result = 31 * result + (fcjssj != null ? fcjssj.hashCode() : 0);
         result = 31 * result + (xcfcId != null ? xcfcId.hashCode() : 0);
         result = 31 * result + (uploadPic != null ? uploadPic.hashCode() : 0);
+        result = 31 * result + (dzshyj != null ? dzshyj.hashCode() : 0);
         return result;
     }
 }

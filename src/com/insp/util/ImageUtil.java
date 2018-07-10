@@ -18,8 +18,8 @@ import java.util.UUID;
 import com.insp.dao.*;
 
 public class ImageUtil {
-  //  public static final String host = "http://47.98.152.18:18080/";
-  public static final String host = "http://localhost:8088/";
+    public static final String host = "http://47.98.152.18:18080/";
+ /* public static final String host = "http://localhost:8088/";*/
     public static final String imgFloder = "pic_file/";
 
     public String saveSignImg(String dataUrl){
@@ -196,8 +196,13 @@ public class ImageUtil {
         }
         return imgFloder + fileName;
     }
+    public String getUUIDString() throws Exception{
+        UUID uuid = UUID.randomUUID();
+        String uuidL = uuid.toString().replace("\\-","");
+        return  uuidL;
+    }
 
-    public String createResultImg(TYdjdXcjxEntity xcjxEntity, JSONArray jcxList, int flag){
+    public String createResultImg(TYdjdXcjxEntity xcjxEntity, String[] jcxList, int flag,int flagL){
         String fileName = UUID.randomUUID() + ".jpg";
         File result = new File(getImgPath() + fileName);
 
@@ -213,11 +218,11 @@ public class ImageUtil {
         }
 
         JcModel model = new JcModel();
-        try {
+       /* try {
             model.setQrCode(QrCodeUtil.createQrCode(host + imgFloder + fileName));
         } catch (WriterException e) {
             e.printStackTrace();
-        }
+        }*/
         model.setFxq(xcjxEntity.getJcdq());
         model.setNyear(xcjxEntity.getJcaj());
         model.setSequence(xcjxEntity.getJch());
@@ -244,20 +249,20 @@ public class ImageUtil {
         model.setZjhm1(xcjxEntity.getZfry1Zjhm());
         model.setZjhm2(xcjxEntity.getZfry2Zjhm());
         String[] jcqkArray = new String[6];
-        int i=0;
-        int j=1;
-        for (Object o : jcxList) {
-            JSONObject jsonObject = (JSONObject) o;
-            jcqkArray[i] = jsonObject.getString("jcx");
-            if (jsonObject.getBoolean("isActive")){
-                jcqkArray[i] = jcqkArray[i]+" "+"通过";
-            } else {
-                jcqkArray[i] = jcqkArray[i]+" "+"不通过"+"";
-            }
-            i++;
-            j++;
+        for (int i=0;i<jcxList.length; i++) {
+                jcqkArray[i] = jcxList[i];
         }
         model.setJcqkArray(jcqkArray);
+
+            try {
+                if(flagL==0) {
+                    model.setQrCode(QrCodeUtil.createQrCode(host + imgFloder + fileName));
+                } else{
+                    model.setQrCode(new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB));
+                }
+            } catch (WriterException e) {
+                e.printStackTrace();
+            }
 
        /* StringBuilder sb = new StringBuilder();
         for (Object o : jcxList){
@@ -291,7 +296,7 @@ public class ImageUtil {
             model.setNo("1");
 
             JcGenerator generator = new JcGenerator(flag);
-            generator.write(model, result);
+            generator.write(model, result,flagL);
         } catch (Exception e){
             e.printStackTrace();
         }

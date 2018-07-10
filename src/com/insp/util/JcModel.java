@@ -98,9 +98,9 @@ public class JcModel {
 	 * @return
 	 */
 	public String count,no;
-	/**
-	 * 二维码
-	 */
+
+	//二维码
+
 	public BufferedImage qrCode;
 	public BufferedImage getQrCode() {
 		return qrCode;
